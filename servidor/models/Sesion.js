@@ -26,7 +26,7 @@ const SesionSchema = mongoose.Schema({
         required: true
     },
     heartbeats: {
-        type: Number,
+        type: String,
         required: true
     },
     moans: {

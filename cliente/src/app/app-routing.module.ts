@@ -8,6 +8,7 @@ const routes: Routes = [
   {path: '', component: ListarPacientesComponent},
   {path: 'ver-paciente', component: VerPacienteComponent},
   {path: 'crear-sesion', component: CrearSesionComponent},
+  //{path: 'editar-sesion', component: CrearSesionComponent},
   {path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Sesion } from 'src/app/models/sesion';
+import { SesionService } from 'src/app/services/sesion.service';
 
 @Component({
   selector: 'app-crear-sesion',
@@ -11,7 +12,10 @@ import { Sesion } from 'src/app/models/sesion';
 })
 export class CrearSesionComponent implements OnInit {
   sesionForm: FormGroup;
-  constructor(private fb: FormBuilder, private router: Router, private toastr: ToastrService) { 
+  titulo = 'Crear Sesión';
+  id: string | null;
+
+  constructor(private fb: FormBuilder, private router: Router, private toastr: ToastrService, private _sesionService: SesionService, private aRouter: ActivatedRoute) {
     this.sesionForm = this.fb.group({
       exerciseToDo: ['', Validators.required],
       aproxTotalDuration: ['', Validators.required],
@@ -22,14 +26,14 @@ export class CrearSesionComponent implements OnInit {
       heartbeats: ['', Validators.required],
       comments: ['', Validators.required],
     })
+    this.id = this.aRouter.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
+    //this.esEditar();
   }
 
-  agregarSesion(){
-    console.log(this.sesionForm);
-
+  /*agregarSesion() {
     const SESION: Sesion = {
       exerciseToDo: this.sesionForm.get('exerciseToDo')?.value,
       aproxTotalDuration: this.sesionForm.get('aproxTotalDuration')?.value,
@@ -40,9 +44,69 @@ export class CrearSesionComponent implements OnInit {
       heartbeats: this.sesionForm.get('heartbeats')?.value,
       comments: this.sesionForm.get('comments')?.value
     }
+
+    if(this.id !== null){
+      //editamos sesion
+      this._sesionService.editarSesion(this.id, SESION).subscribe(data => {
+        this.toastr.info('El sesion fue actualizado con éxito!', 'Sesión actualizada');
+        this.router.navigate(['/']);
+      }, error => {
+        console.log(error);
+        this.sesionForm.reset();
+      })
+    }else{
+      //agregamos sesión
+      console.log(SESION);
+    this._sesionService.guardarSesion(SESION).subscribe(data => {
+      this.toastr.success('La sesion fue registrada con éxito!', 'Sesión registrada');
+      this.router.navigate(['/']);
+    }, error => {
+      console.log(error);
+      this.sesionForm.reset();
+    })
+    }
+  }*/
+
+  agregarSesion() {
+    const SESION: Sesion = {
+      exerciseToDo: this.sesionForm.get('exerciseToDo')?.value,
+      aproxTotalDuration: this.sesionForm.get('aproxTotalDuration')?.value,
+      actualTotalDuration: this.sesionForm.get('actualTotalDuration')?.value,
+      date: this.sesionForm.get('date')?.value,
+      emotions: this.sesionForm.get('emotions')?.value,
+      moans: this.sesionForm.get('moans')?.value,
+      heartbeats: this.sesionForm.get('heartbeats')?.value,
+      comments: this.sesionForm.get('comments')?.value
+    }
+    //agregamos sesión
     console.log(SESION);
-    this.toastr.success('La sesión ha sido registrada con éxito', 'Sesión Registrada');
-    this.router.navigate(['/ver-paciente']);
+    this._sesionService.guardarSesion(SESION).subscribe(data => {
+      this.toastr.success('La sesion fue registrada con éxito!', 'Sesión registrada');
+      this.router.navigate(['/']);
+    }, error => {
+      console.log(error);
+      this.sesionForm.reset();
+    })
+
   }
+
+  /*esEditar() {
+    if (this.id !== null) {
+      this.titulo = 'Editar sesión';
+      this._sesionService.obtenerSesion(this.id).subscribe(data => {
+        this.sesionForm.setValue({
+          exerciseToDo: data.exerciseToDo,
+          aproxTotalDuration: data.aproxTotalDuration,
+          actualTotalDuration: data.actualTotalDuration,
+          date: data.date,
+          emotions: data.emotions,
+          moans: data.moans,
+          heartbeats: data.heartbeats,
+          comments: data.comments
+        })
+      })
+    }
+  }*/
+
 
 }
