@@ -10,13 +10,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
+import { EmotionsPlayerComponent } from './emotions-player/emotions-player.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListarPacientesComponent,
     CrearSesionComponent,
-    VerPacienteComponent
+    VerPacienteComponent,
+    EmotionsPlayerComponent
   ],
   imports: [
     BrowserModule,

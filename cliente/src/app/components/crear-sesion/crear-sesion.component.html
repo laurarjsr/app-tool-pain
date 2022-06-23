@@ -46,6 +46,10 @@
                                         *ngIf="sesionForm.get('emotions')?.hasError('required') && sesionForm.get('emotions')?.touched">
                                         <span>La fecha <strong>es obligatoria</strong></span>
                                     </div>
+                                    <div class="cam">
+                                        <app-emotions-player [stream]="currentStream"></app-emotions-player>
+                                        </div>
+
                                 </div>
                                 <div class="col-4">
                                     <textarea formControlName="moans" class="form-control"
@@ -58,10 +62,10 @@
                                 <div class="col-4">
                                     <textarea formControlName="heartbeats" class="form-control"
                                         rows="3">Historial pulsaciones (por hacer)</textarea>
-                                        <div class="text-danger"
-                                *ngIf="sesionForm.get('heartbeats')?.hasError('required') && sesionForm.get('heartbeats')?.touched">
-                                <span>La fecha <strong>es obligatoria</strong></span>
-                            </div>
+                                    <div class="text-danger"
+                                        *ngIf="sesionForm.get('heartbeats')?.hasError('required') && sesionForm.get('heartbeats')?.touched">
+                                        <span>La fecha <strong>es obligatoria</strong></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -76,7 +80,8 @@
                         <div class="mb-3">
                             <button routerLink="/ver-paciente"
                                 class="btn btn-danger btn-lg float-start">Cancelar</button>
-                            <button type="submit" [disabled]="sesionForm.invalid" class="btn btn-success btn-lg float-end">Guardar</button>
+                            <button type="submit" [disabled]="sesionForm.invalid"
+                                class="btn btn-success btn-lg float-end">Guardar</button>
                         </div>
                     </form>
                 </div>

@@ -15,6 +15,10 @@ export class CrearSesionComponent implements OnInit {
   titulo = 'Crear Sesión';
   id: string | null;
 
+  public currentStream: any;
+
+  
+
   constructor(private fb: FormBuilder, private router: Router, private toastr: ToastrService, private _sesionService: SesionService, private aRouter: ActivatedRoute) {
     this.sesionForm = this.fb.group({
       exerciseToDo: ['', Validators.required],
@@ -31,6 +35,7 @@ export class CrearSesionComponent implements OnInit {
 
   ngOnInit(): void {
     //this.esEditar();
+    this.checkMediaSource();
   }
 
   /*agregarSesion() {
@@ -89,6 +94,26 @@ export class CrearSesionComponent implements OnInit {
     })
 
   }
+
+  checkMediaSource = () => {
+    if (navigator && navigator.mediaDevices) {
+
+      navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: true
+      }).then(stream => {
+        this.currentStream = stream;
+      }).catch(() => {
+        console.log('**** ERROR NOT PERMISSIONS *****');
+      });
+
+    } else {
+      console.log('******* ERROR NOT FOUND MEDIA DEVICES');
+    }
+  };
+  
+
+  
 
   /*esEditar() {
     if (this.id !== null) {
