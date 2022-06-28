@@ -26,7 +26,7 @@ export class SesionService {
     return this.http.get(this.url + id);
   }
 
-  /*editarSesion(id: string, sesion: Sesion): Observable<any> {
+  editarSesion(id: string, sesion: Sesion): Observable<any> {
     return this.http.put(this.url + id, sesion);
-  }*/
+  }
 }

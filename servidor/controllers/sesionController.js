@@ -52,7 +52,7 @@ exports.eliminarSesion = async (req, res) => {
     }
 }
 
-/*exports.actualizarSesion = async (req, res) => {
+exports.actualizarSesion = async (req, res) => {
     try {
         const { exerciseToDo, aproxTotalDuration, actualTotalDuration, date, emotions, moans, heartbeats, comments} = req.body;
         let sesion = await Sesion.findById(req.params.id);
@@ -75,4 +75,4 @@ exports.eliminarSesion = async (req, res) => {
         console.log(error);
         res.status(500).send('Hubo un error');
     }
-}*/
+}

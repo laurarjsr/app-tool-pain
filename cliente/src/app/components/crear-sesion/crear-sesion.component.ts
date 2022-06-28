@@ -30,47 +30,14 @@ export class CrearSesionComponent implements OnInit {
       heartbeats: ['', Validators.required],
       comments: ['', Validators.required],
     })
+    //Obtenemos el ID de la sesión:
     this.id = this.aRouter.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
-    //this.esEditar();
+    this.esEditar();
     this.checkMediaSource();
   }
-
-  /*agregarSesion() {
-    const SESION: Sesion = {
-      exerciseToDo: this.sesionForm.get('exerciseToDo')?.value,
-      aproxTotalDuration: this.sesionForm.get('aproxTotalDuration')?.value,
-      actualTotalDuration: this.sesionForm.get('actualTotalDuration')?.value,
-      date: this.sesionForm.get('date')?.value,
-      emotions: this.sesionForm.get('emotions')?.value,
-      moans: this.sesionForm.get('moans')?.value,
-      heartbeats: this.sesionForm.get('heartbeats')?.value,
-      comments: this.sesionForm.get('comments')?.value
-    }
-
-    if(this.id !== null){
-      //editamos sesion
-      this._sesionService.editarSesion(this.id, SESION).subscribe(data => {
-        this.toastr.info('El sesion fue actualizado con éxito!', 'Sesión actualizada');
-        this.router.navigate(['/']);
-      }, error => {
-        console.log(error);
-        this.sesionForm.reset();
-      })
-    }else{
-      //agregamos sesión
-      console.log(SESION);
-    this._sesionService.guardarSesion(SESION).subscribe(data => {
-      this.toastr.success('La sesion fue registrada con éxito!', 'Sesión registrada');
-      this.router.navigate(['/']);
-    }, error => {
-      console.log(error);
-      this.sesionForm.reset();
-    })
-    }
-  }*/
 
   agregarSesion() {
     const SESION: Sesion = {
@@ -83,16 +50,45 @@ export class CrearSesionComponent implements OnInit {
       heartbeats: this.sesionForm.get('heartbeats')?.value,
       comments: this.sesionForm.get('comments')?.value
     }
-    //agregamos sesión
-    console.log(SESION);
-    this._sesionService.guardarSesion(SESION).subscribe(data => {
-      this.toastr.success('La sesion fue registrada con éxito!', 'Sesión registrada');
-      this.router.navigate(['/']);
-    }, error => {
-      console.log(error);
-      this.sesionForm.reset();
-    })
 
+    if (this.id !== null) {
+      //editamos sesion
+      this._sesionService.editarSesion(this.id, SESION).subscribe(data => {
+        this.toastr.info('El sesion fue actualizado con éxito!', 'Sesión actualizada');
+        this.router.navigate(['/']);
+      }, error => {
+        console.log(error);
+        this.sesionForm.reset();
+      })
+    } else {
+      //agregamos sesión
+      console.log(SESION);
+      this._sesionService.guardarSesion(SESION).subscribe(data => {
+        this.toastr.success('La sesion fue registrada con éxito!', 'Sesión registrada');
+        this.router.navigate(['/']);
+      }, error => {
+        console.log(error);
+        this.sesionForm.reset();
+      })
+    }
+  }
+
+  esEditar() {
+    if (this.id !== null) {
+      this.titulo = 'Editar sesión';
+      this._sesionService.obtenerSesion(this.id).subscribe(data => {
+        this.sesionForm.setValue({
+          exerciseToDo: data.exerciseToDo,
+          aproxTotalDuration: data.aproxTotalDuration,
+          actualTotalDuration: data.actualTotalDuration,
+          date: data.date,
+          emotions: data.emotions,
+          moans: data.moans,
+          heartbeats: data.heartbeats,
+          comments: data.comments
+        })
+      })
+    }
   }
 
   checkMediaSource = () => {
@@ -111,27 +107,5 @@ export class CrearSesionComponent implements OnInit {
       console.log('******* ERROR NOT FOUND MEDIA DEVICES');
     }
   };
-  
-
-  
-
-  /*esEditar() {
-    if (this.id !== null) {
-      this.titulo = 'Editar sesión';
-      this._sesionService.obtenerSesion(this.id).subscribe(data => {
-        this.sesionForm.setValue({
-          exerciseToDo: data.exerciseToDo,
-          aproxTotalDuration: data.aproxTotalDuration,
-          actualTotalDuration: data.actualTotalDuration,
-          date: data.date,
-          emotions: data.emotions,
-          moans: data.moans,
-          heartbeats: data.heartbeats,
-          comments: data.comments
-        })
-      })
-    }
-  }*/
-
 
 }
