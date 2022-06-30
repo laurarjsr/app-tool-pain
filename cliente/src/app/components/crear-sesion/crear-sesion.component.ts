@@ -16,6 +16,7 @@ export class CrearSesionComponent implements OnInit {
   id: string | null;
 
   public currentStream: any;
+  public dimensionVideo: any;
 
   
 
@@ -37,6 +38,7 @@ export class CrearSesionComponent implements OnInit {
   ngOnInit(): void {
     this.esEditar();
     this.checkMediaSource();
+    this.getSizeCam();
   }
 
   agregarSesion() {
@@ -100,12 +102,21 @@ export class CrearSesionComponent implements OnInit {
       }).then(stream => {
         this.currentStream = stream;
       }).catch(() => {
-        console.log('**** ERROR NOT PERMISSIONS *****');
+        console.log('Oh, no se tiene permisos para acceder a la cámara :(');
       });
 
     } else {
-      console.log('******* ERROR NOT FOUND MEDIA DEVICES');
+      console.log('No se han encontrado dispositivos :(');
     }
+  };
+
+  getSizeCam = () => {
+    //Cogemos el div cam de app.component.html:
+    const elementCam: HTMLElement = document.querySelector('.cam');
+    //Cogemos el alto y el ancho del div cam:
+    const { width, height } = elementCam.getBoundingClientRect();
+    //Guardamos esas dimensiones en una variable para despues aplicar ese alto y ese ancho en el componente del video player en app.component.html
+    this.dimensionVideo = { width, height };
   };
 
 }

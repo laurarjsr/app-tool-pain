@@ -1,0 +1,16 @@
+/* ::ng-deep video, ::ng-deep canvas {
+  width: 478px;
+  height: 360px;
+  object-fit: cover;
+  border: solid 0px transparent;
+}
+::ng-deep video {
+  background-color: white;
+  border: solid 0px white;
+  display: block;
+  width: 478px;
+} */
+::ng-deep canvas {
+  top: 0;
+  position:absolute;
+}

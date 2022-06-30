@@ -1,4 +1,29 @@
-.text-danger{
+.text-danger {
     text-align: start;
     margin-left: 7px;
+}
+
+.cam {
+    position: relative;
+}
+
+.placeholder {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+::ng-deep .space-preview canvas {
+    position: relative;
+    width: 100%;
+    height: 25rem;
+}
+
+::ng-deep .canvas-preview {
+    position: relative;
+}
+
+::ng-deep .canvas-preview canvas {
+    width: 100%;
 }
