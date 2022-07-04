@@ -5,6 +5,7 @@
 
 .cam {
     position: relative;
+    float: left;
 }
 
 .placeholder {
@@ -26,4 +27,18 @@
 
 ::ng-deep .canvas-preview canvas {
     width: 100%;
+}
+
+  .value-number{
+    color: blue;
+  }
+
+.expresiones{
+    float:inline-start;
+}
+
+table {
+	width: 40%;
+	height: 300px;
+    margin-left: 50%;
 }

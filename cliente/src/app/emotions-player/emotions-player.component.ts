@@ -58,7 +58,7 @@ drawFace = (resizedDetections, displaySize, eyes) => {
   //Agarramos el contexto del canvas y lo limpiamos
   this.overCanvas.getContext('2d').clearRect(0, 0, displaySize.width, displaySize.height);
   //Visualizamos las emociones en el canvas:
-   globalFace.draw.drawFaceExpressions(this.overCanvas, resizedDetections);
+   //globalFace.draw.drawFaceExpressions(this.overCanvas, resizedDetections);
    globalFace.draw.drawFaceLandmarks(this.overCanvas, resizedDetections);
 
   const scale = this.width / displaySize.width;

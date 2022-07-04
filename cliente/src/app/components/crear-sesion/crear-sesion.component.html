@@ -47,7 +47,7 @@
                                         *ngIf="sesionForm.get('emotions')?.hasError('required') && sesionForm.get('emotions')?.touched">
                                         <span>La fecha <strong>es obligatoria</strong></span>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="col-4">
                                     <textarea formControlName="moans" class="form-control"
@@ -65,13 +65,29 @@
                                         <span>La fecha <strong>es obligatoria</strong></span>
                                     </div>
                                 </div>
-                            </div>     
+                            </div>
                         </div>
                         <div class="cam">
-                            <app-emotions-player 
-                                [stream]="currentStream">
+                            <app-emotions-player [stream]="currentStream">
                             </app-emotions-player>
-                          </div> 
+                        </div>
+                        <div class="expresiones">
+                            <b>ESTADOS DE ÁNIMO</b>
+                            <table *ngIf="listExpressions.length > 0" class="table" width="50%">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th scope="col">Emoción</th>
+                                        <th scope="col">Valor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let expression of listExpressions">
+                                        <td>{{expression.name}}</td>
+                                        <td class="value-number">{{expression.value | number }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="mb-3">
                             <textarea type="text" formControlName="comments" class="form-control form-control-lg"
                                 placeholder="Observaciones"></textarea>
