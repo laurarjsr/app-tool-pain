@@ -7,6 +7,7 @@ import { Sesion } from 'src/app/models/sesion';
 import { SesionService } from 'src/app/services/sesion.service';
 import { VideoPlayerService } from 'src/app/video-player.service';
 import * as _ from 'lodash';
+import { MoansRecognitionService } from 'src/app/moans-recognition.service';
 
 @Component({
   selector: 'app-crear-sesion',
@@ -18,14 +19,18 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
   titulo = 'Crear Sesión';
   id: string | null;
 
+  //---Variables para la detección de las emociones---
   public currentStream: any;
   public dimensionVideo: any;
   listEvents: Array<any> = [];
   listExpressions: any = [];
 
-  
+  //---Variables para la detección de quejidos---
+  listRecognitions: string[] = [];
+  //Creamos un diccionario clave-valor para poder asociar a los quejidos que se detecten la hora exacta en la que se dijeron, siendo el quejido la clave y el valor la fecha actual
+  moansAndDate = new Map();
 
-  constructor(private fb: FormBuilder, private router: Router, private toastr: ToastrService, private _sesionService: SesionService, private aRouter: ActivatedRoute, private faceApiService: FaceApiService, private render: Renderer2, private elementRef: ElementRef, private videoPlayerService: VideoPlayerService) {
+  constructor(private fb: FormBuilder, private router: Router, private toastr: ToastrService, private _sesionService: SesionService, private aRouter: ActivatedRoute, private faceApiService: FaceApiService, private render: Renderer2, private elementRef: ElementRef, private videoPlayerService: VideoPlayerService, private speech: MoansRecognitionService) {
     this.sesionForm = this.fb.group({
       exerciseToDo: ['', Validators.required],
       aproxTotalDuration: ['', Validators.required],
@@ -145,7 +150,16 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.listEvents = [observer1$];
+    const observer2$ = this.speech.record('es_ES')
+    .subscribe(e => {
+      this.listRecognitions.push(e);
+      const date = new Date();
+      for (let i = 0; i < this.listRecognitions.length; i++) {
+        this.moansAndDate.set(this.listRecognitions[i], date);
+      }
+      console.log(this.moansAndDate);
+    })
+    this.listEvents = [observer1$, observer2$];
   };
 
 }
