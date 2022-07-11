@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
 import { EmotionsPlayerComponent } from './emotions-player/emotions-player.component';
+import { EmocionesPipe } from './pipes/emociones.pipe';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { EmotionsPlayerComponent } from './emotions-player/emotions-player.compo
     ListarPacientesComponent,
     CrearSesionComponent,
     VerPacienteComponent,
-    EmotionsPlayerComponent
+    EmotionsPlayerComponent,
+    EmocionesPipe
   ],
   imports: [
     BrowserModule,

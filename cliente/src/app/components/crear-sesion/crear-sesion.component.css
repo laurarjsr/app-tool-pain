@@ -5,7 +5,9 @@
 
 .cam {
     position: relative;
-    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .placeholder {
@@ -34,11 +36,17 @@
   }
 
 .expresiones{
-    float:inline-start;
+    width: 40%;
+    float: left;
 }
 
-table {
-	width: 40%;
-	height: 300px;
-    margin-left: 50%;
+.quejidos {
+    margin-left: 0%;
+    float: right;
+    width: 58%;
+}
+
+.quejidos table {
+    margin-left: 10 !important;
+    
 }

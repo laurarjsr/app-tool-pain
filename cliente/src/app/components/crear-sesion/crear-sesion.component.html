@@ -67,13 +67,15 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="cam">
                             <app-emotions-player [stream]="currentStream">
                             </app-emotions-player>
                         </div>
+
                         <div class="expresiones">
                             <b>ESTADOS DE ÁNIMO</b>
-                            <table *ngIf="listExpressions.length > 0" class="table" width="50%">
+                            <table *ngIf="listExpressions.length > 0" class="table">
                                 <thead>
                                     <tr class="table-primary">
                                         <th scope="col">Emoción</th>
@@ -82,12 +84,16 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let expression of listExpressions">
-                                        <td>{{expression.name}}</td>
+                                        <td>{{expression.name | emociones}}</td>
                                         <td class="value-number">{{expression.value | number }}</td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <b>QUEJIDOS DETECTADOS</b>
+                        </div>
+
+                        <div class="quejidos">
+                            <!--Primer opción con objeto map-->
+                            <!-- <b>QUEJIDOS DETECTADOS</b>
                             <table *ngIf="moansAndDate.size > 0" class="table" width="50%">
                                 <thead>
                                     <tr class="table-primary">
@@ -101,8 +107,56 @@
                                         <td>{{recipient.value}}</td>
                                     </tr>
                                 </tbody>
-                              </table>
+                              </table> -->
+
+                            <!--Segunda opción con un array para cada quejido-->
+                            <b>QUEJIDOS DETECTADOS</b>
+                            <table class="table">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th scope="col">Quejido</th>
+                                        <th scope="col">Instante temporal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let quejido1 of ay">
+                                        <td>Ay!</td>
+                                        <td>{{quejido1.toLocaleString('es-ES', {dateStyle:"full", timeStyle:
+                                            "medium"})}}</td>
+                                    </tr>
+                                    <tr *ngFor="let quejido2 of meDuele">
+                                        <td>¡Me duele!</td>
+                                        <td>{{quejido2.toLocaleString('es-ES', {dateStyle:"full", timeStyle:
+                                            "medium"})}}</td>
+                                    </tr>
+                                    <tr *ngFor="let quejido3 of para">
+                                        <td>¡Para, para!</td>
+                                        <td>{{quejido3.toLocaleString('es-ES', {dateStyle:"full", timeStyle:
+                                            "medium"})}}</td>
+                                    </tr>
+                                    <tr *ngFor="let quejido4 of noPuedoMas">
+                                        <td>¡No puedo!</td>
+                                        <td>{{quejido4.toLocaleString('es-ES', {dateStyle:"full", timeStyle:
+                                            "medium"})}}</td>
+                                    </tr>
+                                    <tr *ngFor="let quejido5 of noAguanto">
+                                        <td>¡No aguanto!</td>
+                                        <td>{{quejido5.toLocaleString('es-ES', {dateStyle:"full", timeStyle:
+                                            "medium"})}}</td>
+                                    </tr>
+                                    <tr *ngFor="let quejido6 of noPuedoSeguir">
+                                        <td>¡No puedo seguir!</td>
+                                        <td>{{quejido6.toLocaleString('es-ES', {dateStyle:"full", timeStyle:
+                                            "medium"})}}</td>
+                                    </tr>
+                                    <tr *ngIf="ay.length == 0 or meDuele.length == 0">
+                                        <td>No hay quejidos detectados</td>
+                                        <td>-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
+
                         <div class="mb-3">
                             <textarea type="text" formControlName="comments" class="form-control form-control-lg"
                                 placeholder="Observaciones"></textarea>

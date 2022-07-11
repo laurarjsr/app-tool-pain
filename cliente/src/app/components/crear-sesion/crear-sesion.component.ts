@@ -25,10 +25,19 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
   listEvents: Array<any> = [];
   listExpressions: any = [];
 
-  //---Variables para la detección de quejidos---
+  //---Variables para la detección de quejidos - Primera versión, de momento descartada---
   listRecognitions: string[] = [];
   //Creamos un diccionario clave-valor para poder asociar a los quejidos que se detecten la hora exacta en la que se dijeron, siendo el quejido la clave y el valor la fecha actual
   moansAndDate = new Map();
+
+  //---Variables para la detección de quejidos - Segunda versión, de momento la elegida---
+  //La idea es crear arrays asociados a cada quejido y en cada array guardar las horas en las que se dicen, de tal manera que para cada quejido tendríamos un array con los instantes temporales en lo que han sido pronunciados.
+  ay: Date[] = [];
+  meDuele: Date[] = [];
+  para: Date[] = [];
+  noPuedoMas: Date[] = [];
+  noAguanto: Date[] = [];
+  noPuedoSeguir: Date[] = [];
 
   constructor(private fb: FormBuilder, private router: Router, private toastr: ToastrService, private _sesionService: SesionService, private aRouter: ActivatedRoute, private faceApiService: FaceApiService, private render: Renderer2, private elementRef: ElementRef, private videoPlayerService: VideoPlayerService, private speech: MoansRecognitionService) {
     this.sesionForm = this.fb.group({
@@ -145,20 +154,68 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
         if (resizedDetections) {
           //En vez de obtener las expresiones en formato llave-valor hacemos un mapeo "guardando" así el nombre de la expresión dentro de "name" y el valor de la expresión dentro de "value". Esto nos facilitará el manejo de la lista de las emociones:
           this.listExpressions = _.map(expressions, (value, name) => {
-            return {name, value};
+            return { name, value };
           });
         }
       });
 
     const observer2$ = this.speech.record('es_ES')
-    .subscribe(e => {
-      this.listRecognitions.push(e);
-      const date = new Date();
-      for (let i = 0; i < this.listRecognitions.length; i++) {
-        this.moansAndDate.set(this.listRecognitions[i], date);
-      }
-      console.log(this.moansAndDate);
-    })
+      .subscribe(e => {
+        //---Primera opción utilizando un objeto map---
+        // this.listRecognitions.push(e);
+        // const date = new Date();
+        // for (let i = 0; i < this.listRecognitions.length; i++) {
+        //   this.moansAndDate.set(this.listRecognitions[i], date);
+        // }
+        // console.log(this.moansAndDate);
+
+        //---Segunda opción utilizando un array para cada quejidos. Cada array tendrá que añadir una hora nueva cada vez que dicho quejido sea pronunciado. Para ello, habrá que comprobar que la palabra que se detecta sea alguna de las palabras clave y en caso afirmativo hacer un push con la fecha---
+        const date = new Date();
+
+        if (e.includes('me') && e.includes('duele')) {
+          this.meDuele.push(date);
+          console.log('ME DUELE --> detectado');
+          console.log(this.meDuele);
+        } else {
+          console.log('ME DUELE --> NO detectado');
+        }
+
+        if (e.includes('ay')) {
+          this.ay.push(date);
+          console.log('AY --> detectado');
+        } else {
+          console.log('AY --> NO detectado');
+        }
+
+        if (e.includes('para')) {
+          this.para.push(date);
+          console.log('PARA --> detectado');
+        } else {
+          console.log('PARA --> NO detectado')
+        }
+
+        if (e.includes('no') && e.includes('aguanto')) {
+          this.noAguanto.push(date);
+          console.log('NO AGUANTO --> detectado');
+        } else {
+          console.log('NO AGUANTO --> NO detectado')
+        }
+
+        if (e.includes('no') && e.includes('puedo')) {
+          this.noPuedoMas.push(date);
+          console.log('NO PUEDO MAS --> detectado');
+        } else {
+          console.log('NO PUEDO MAS --> NO detectado')
+        }
+
+        if (e.includes('no') && e.includes('puedo') && e.includes('seguir')) {
+          this.noPuedoSeguir.push(date);
+          console.log('NO PUEDO SEGUIR --> detectado');
+        } else {
+          console.log('NO PUEDO SEGUIR --> NO detectado')
+        }
+
+      })
     this.listEvents = [observer1$, observer2$];
   };
 
