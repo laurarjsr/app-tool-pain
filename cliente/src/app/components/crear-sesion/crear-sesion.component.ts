@@ -25,11 +25,6 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
   listEvents: Array<any> = [];
   listExpressions: any = [];
 
-  //---Variables para la detección de quejidos - Primera versión, de momento descartada---
-  listRecognitions: string[] = [];
-  //Creamos un diccionario clave-valor para poder asociar a los quejidos que se detecten la hora exacta en la que se dijeron, siendo el quejido la clave y el valor la fecha actual
-  moansAndDate = new Map();
-
   //---Variables para la detección de quejidos - Segunda versión, de momento la elegida---
   //La idea es crear arrays asociados a cada quejido y en cada array guardar las horas en las que se dicen, de tal manera que para cada quejido tendríamos un array con los instantes temporales en lo que han sido pronunciados.
   ay: Date[] = [];
@@ -45,9 +40,9 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
       aproxTotalDuration: ['', Validators.required],
       actualTotalDuration: ['', Validators.required],
       date: ['', Validators.required],
-      emotions: ['', Validators.required],
-      moans: ['', Validators.required],
-      heartbeats: ['', Validators.required],
+      // emotions: ['', Validators.required],
+      // moans: ['', Validators.required],
+      // heartbeats: ['', Validators.required],
       comments: ['', Validators.required],
     })
     //Obtenemos el ID de la sesión:
@@ -72,9 +67,9 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
       aproxTotalDuration: this.sesionForm.get('aproxTotalDuration')?.value,
       actualTotalDuration: this.sesionForm.get('actualTotalDuration')?.value,
       date: this.sesionForm.get('date')?.value,
-      emotions: this.sesionForm.get('emotions')?.value,
-      moans: this.sesionForm.get('moans')?.value,
-      heartbeats: this.sesionForm.get('heartbeats')?.value,
+      emotions: [],
+      moans: [],
+      heartbeats:[], 
       comments: this.sesionForm.get('comments')?.value
     }
 
@@ -109,9 +104,9 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
           aproxTotalDuration: data.aproxTotalDuration,
           actualTotalDuration: data.actualTotalDuration,
           date: data.date,
-          emotions: data.emotions,
-          moans: data.moans,
-          heartbeats: data.heartbeats,
+          // emotions: data.emotions,
+          // moans: data.moans,
+          // heartbeats: data.heartbeats,
           comments: data.comments
         })
       })
@@ -153,9 +148,14 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
         //Crearemos un canvas en cuanto se detecte la cara:
         if (resizedDetections) {
           //En vez de obtener las expresiones en formato llave-valor hacemos un mapeo "guardando" así el nombre de la expresión dentro de "name" y el valor de la expresión dentro de "value". Esto nos facilitará el manejo de la lista de las emociones:
-          this.listExpressions = _.map(expressions, (value, name) => {
-            return { name, value };
-          });
+          // this.listExpressions = _.map(expressions, (value, name) => {
+          //   return { name, value };
+          // });
+
+          //Añadimos al array de las emociones un atributo para la fecha
+          expressions.fecha = new Date();
+          this.listExpressions.push(expressions);
+          console.log(this.listExpressions);
         }
       });
 
@@ -218,5 +218,11 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
       })
     this.listEvents = [observer1$, observer2$];
   };
+
+  //Crear método para el envío de las emociones hacia el servidor
+
+  //Crear método para el envío de los quejidos hacia el servidor
+ 
+  //Crear método para el envío de las pulsaciones hacia el servidor
 
 }

@@ -38,7 +38,8 @@
                                 <span>La fecha <strong>es obligatoria</strong></span>
                             </div>
                         </div>
-                        <div class="mb-3">
+                        <!--Comentamos los 3 campos que no necesitamos que estén en el formulario-->
+                        <!-- <div class="mb-3">
                             <div class="row">
                                 <div class="col-4">
                                     <textarea formControlName="emotions" class="form-control"
@@ -66,7 +67,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="cam">
                             <app-emotions-player [stream]="currentStream">
@@ -83,9 +84,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let expression of listExpressions">
-                                        <td>{{expression.name | emociones}}</td>
-                                        <td class="value-number">{{expression.value | number }}</td>
+                                    <tr>
+                                        <td>Neutral</td>
+                                        <td class="value-number">{{listExpressions[listExpressions.length - 1].neutral | number}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Feliz</td>
+                                        <td class="value-number">{{listExpressions[listExpressions.length - 1].happy | number}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Triste</td>
+                                        <td class="value-number">{{listExpressions[listExpressions.length - 1].sad | number}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Enfadado</td>
+                                        <td class="value-number">{{listExpressions[listExpressions.length - 1].angry | number}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Asqueado</td>
+                                        <td class="value-number">{{listExpressions[listExpressions.length - 1].fearful | number}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Disgustado</td>
+                                        <td class="value-number">{{listExpressions[listExpressions.length - 1].disgusted | number}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sorprendido</td>
+                                        <td class="value-number">{{listExpressions[listExpressions.length - 1].surprised | number}}</td>
                                     </tr>
                                 </tbody>
                             </table>
