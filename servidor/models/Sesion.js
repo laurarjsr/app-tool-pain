@@ -18,20 +18,20 @@ const SesionSchema = mongoose.Schema({
         require: true
     },
     emotions: {
-        type: String,
-        required: true
+        type: Array,
+        required: false
     },
     exerciseToDo: {
         type: String,
         required: true
     },
     heartbeats: {
-        type: String,
-        required: true
+        type: Array,
+        required: false
     },
     moans: {
-        type: String,
-        required: true
+        type: Object,
+        required: false
     }
 });
 
