@@ -76,3 +76,60 @@ exports.actualizarSesion = async (req, res) => {
         res.status(500).send('Hubo un error');
     }
 }
+
+//Método que actualiza los datos de las emociones en la base de datos
+exports.actualizarEmociones = async (req, res) => {
+    try{
+        const emotions = req.body;
+        let sesion = await Sesion.findById(req.params.id);
+        if (!sesion) {
+            res.status(404).json({ msg: 'No existe la sesión' })
+        }
+
+        //Actualizamos SOLO el campo de las emociones
+        sesion.emotions = emotions;
+        sesion = await Sesion.findOneAndUpdate({ _id: req.params.id }, sesion, { new: true })
+        res.json(sesion);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error al actualizar los datos de las emociones');
+    }
+}
+
+//Método que actualiza los datos de los quejidos en la base de datos
+exports.actualizarQuejidos = async (req, res) => {
+    try{
+        const moans = req.body;
+        let sesion = await Sesion.findById(req.params.id);
+        if (!sesion) {
+            res.status(404).json({ msg: 'No existe la sesión' })
+        }
+
+        //Actualizamos SOLO el campo de los quejidos
+        sesion.moans = moans;
+        sesion = await Sesion.findOneAndUpdate({ _id: req.params.id }, sesion, { new: true })
+        res.json(sesion);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error al actualizar los datos de los quejidos');
+    }
+}
+
+//Método que actualiza los datos de las pulsaciones en la base de datos
+exports.actualizarPulsaciones = async (req, res) => {
+    try{
+        const heartbeats = req.body;
+        let sesion = await Sesion.findById(req.params.id);
+        if (!sesion) {
+            res.status(404).json({ msg: 'No existe la sesión' })
+        }
+
+        //Actualizamos SOLO el campo de las pulsaciones
+        sesion.heartbeats = heartbeats;
+        sesion = await Sesion.findOneAndUpdate({ _id: req.params.id }, sesion, { new: true })
+        res.json(sesion);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Hubo un error al actualizar los datos de las pulsaciones');
+    }
+}

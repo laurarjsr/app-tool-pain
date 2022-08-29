@@ -74,7 +74,14 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
       actualTotalDuration: this.sesionForm.get('actualTotalDuration')?.value,
       date: this.sesionForm.get('date')?.value,
       emotions: [],
-      moans: [],
+      moans: {
+        ay: [],
+        meDuele: [],
+        para: [],
+        noAguanto: [],
+        noPuedoMas: [],
+        noPuedoSeguir: []
+      },
       heartbeats:[], 
       comments: this.sesionForm.get('comments')?.value
     }

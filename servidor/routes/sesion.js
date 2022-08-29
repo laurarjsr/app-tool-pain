@@ -7,6 +7,11 @@ const sesionController = require('../controllers/sesionController');
 router.post('/', sesionController.crearSesion);
 router.get('/',sesionController.obtenerSesiones);
 router.put('/:id',sesionController.actualizarSesion);
+
+router.put('/:id',sesionController.actualizarEmociones);
+router.put('/:id',sesionController.actualizarQuejidos);
+router.put('/:id',sesionController.actualizarPulsaciones);
+
 router.get('/:id',sesionController.obtenerSesion);
 router.delete('/:id',sesionController.eliminarSesion);
 
