@@ -114,27 +114,11 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <button (click)="envioDeEmociones()" class="btn btn-info">Enviar emociones</button>
+                            <button (click)="pararEnvioDeEmociones()" class="btn btn-danger">Parar envío de emociones</button>
                         </div>
 
                         <div class="quejidos">
-                            <!--Primer opción con objeto map-->
-                            <!-- <b>QUEJIDOS DETECTADOS</b>
-                            <table *ngIf="moansAndDate.size > 0" class="table" width="50%">
-                                <thead>
-                                    <tr class="table-primary">
-                                        <th scope="col">Quejido</th>
-                                        <th scope="col">Instante temporal</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let recipient of moansAndDate | keyvalue">
-                                        <td>{{recipient.key}}</td>
-                                        <td>{{recipient.value}}</td>
-                                    </tr>
-                                </tbody>
-                              </table> -->
-
-                            <!--Segunda opción con un array para cada quejido-->
                             <b>QUEJIDOS DETECTADOS</b>
                             <table class="table">
                                 <thead>
@@ -180,6 +164,8 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <button (click)="envioDeQuejidos()" class="btn btn-info">Enviar quejidos</button>
+                            <button (click)="pararEnvioDeQuejidos()" class="btn btn-danger">Parar envío de quejidos</button>
                         </div>
 
                         <div class="mb-3">

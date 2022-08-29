@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -8,6 +8,8 @@ import { SesionService } from 'src/app/services/sesion.service';
 import { VideoPlayerService } from 'src/app/video-player.service';
 import * as _ from 'lodash';
 import { MoansRecognitionService } from 'src/app/moans-recognition.service';
+import { rsqrt } from '@tensorflow/tfjs-core';
+import { TimeoutInfo } from 'rxjs';
 
 @Component({
   selector: 'app-crear-sesion',
@@ -33,6 +35,9 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
   noPuedoMas: Date[] = [];
   noAguanto: Date[] = [];
   noPuedoSeguir: Date[] = [];
+
+  intervaloTiempoEmocionesID: any;
+  intervaloTiempoQuejidosID: any;
 
   constructor(private fb: FormBuilder, private router: Router, private toastr: ToastrService, private _sesionService: SesionService, private aRouter: ActivatedRoute, private faceApiService: FaceApiService, private render: Renderer2, private elementRef: ElementRef, private videoPlayerService: VideoPlayerService, private speech: MoansRecognitionService) {
     this.sesionForm = this.fb.group({
@@ -219,10 +224,49 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
     this.listEvents = [observer1$, observer2$];
   };
 
-  //Crear método para el envío de las emociones hacia el servidor
+  
+  //Método para el envío de las emociones hacia el servidor
+  public envioDeEmociones(){
+    //Se envía la información de las emociones al servidor cada 5 segundos
+    this.intervaloTiempoEmocionesID = setInterval( ()=> {
+      fetch("https://webhook.site/be71cef8-6e85-4af4-bbd4-3187d88cf0bf", {
+      body: JSON.stringify(this.listExpressions),
+      method: "POST"
+    })
+    }
+       , 5000);
+  }
+
+  //Método para detener el envío de las emociones
+  public pararEnvioDeEmociones() {
+    clearInterval(this.intervaloTiempoEmocionesID);
+    this.intervaloTiempoEmocionesID = null;
+  }
 
   //Crear método para el envío de los quejidos hacia el servidor
- 
+  public async envioDeQuejidos(){
+    //Se envía la información de los quejidos al servidor cada 5 segundos
+    this.intervaloTiempoQuejidosID =  setInterval( ()=> {
+      fetch("https://webhook.site/be71cef8-6e85-4af4-bbd4-3187d88cf0bf", {
+        body: JSON.stringify({
+            ay: this.ay,
+            meDuele: this.meDuele,
+            para: this.para,
+            noAguanto: this.noAguanto,
+            noPuedoMas: this.noPuedoMas,
+            noPuedoSeguir: this.noPuedoSeguir
+        }),
+        method: "POST"
+      });  
+    }, 5000);
+  }
+
+  //Método para detener el envío de los quejidos
+  public pararEnvioDeQuejidos() {
+    clearInterval(this.intervaloTiempoQuejidosID);
+    this.intervaloTiempoQuejidosID = null;
+  }
+
   //Crear método para el envío de las pulsaciones hacia el servidor
 
 }
