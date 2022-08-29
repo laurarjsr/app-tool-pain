@@ -1,0 +1,14 @@
+{
+  "name": "miband",
+  "version": "1.0.0",
+  "description": "",
+  "main": "miBand.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "miband": "^0.1.4"
+  }
+}

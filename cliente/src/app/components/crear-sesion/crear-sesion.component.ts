@@ -8,8 +8,8 @@ import { SesionService } from 'src/app/services/sesion.service';
 import { VideoPlayerService } from 'src/app/video-player.service';
 import * as _ from 'lodash';
 import { MoansRecognitionService } from 'src/app/moans-recognition.service';
-import { rsqrt } from '@tensorflow/tfjs-core';
-import { TimeoutInfo } from 'rxjs';
+
+declare var pulseraMiband: any;
 
 @Component({
   selector: 'app-crear-sesion',
@@ -59,6 +59,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
     this.esEditar();
     this.checkMediaSource();
     this.getSizeCam();
+    this.detectarPulsaciones();
   }
 
   ngOnDestroy(): void {
@@ -223,6 +224,11 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
       })
     this.listEvents = [observer1$, observer2$];
   };
+  
+  //Detectar pulsaciones
+  public async detectarPulsaciones() {
+    await pulseraMiband.conectarPulsera();
+  }
 
   
   //Método para el envío de las emociones hacia el servidor
