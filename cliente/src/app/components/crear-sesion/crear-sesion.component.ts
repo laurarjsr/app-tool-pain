@@ -8,8 +8,8 @@ import { SesionService } from 'src/app/services/sesion.service';
 import { VideoPlayerService } from 'src/app/video-player.service';
 import * as _ from 'lodash';
 import { MoansRecognitionService } from 'src/app/moans-recognition.service';
-
-declare var pulseraMiband: any;
+// const MiBand = require('miband');
+declare var MiBand: any;
 
 @Component({
   selector: 'app-crear-sesion',
@@ -39,6 +39,8 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
   intervaloTiempoEmocionesID: any;
   intervaloTiempoQuejidosID: any;
 
+
+
   constructor(private fb: FormBuilder, private router: Router, private toastr: ToastrService, private _sesionService: SesionService, private aRouter: ActivatedRoute, private faceApiService: FaceApiService, private render: Renderer2, private elementRef: ElementRef, private videoPlayerService: VideoPlayerService, private speech: MoansRecognitionService) {
     this.sesionForm = this.fb.group({
       exerciseToDo: ['', Validators.required],
@@ -59,7 +61,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
     this.esEditar();
     this.checkMediaSource();
     this.getSizeCam();
-    this.detectarPulsaciones();
+    // this.detectarPulsaciones();
   }
 
   ngOnDestroy(): void {
@@ -73,7 +75,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
       aproxTotalDuration: this.sesionForm.get('aproxTotalDuration')?.value,
       actualTotalDuration: this.sesionForm.get('actualTotalDuration')?.value,
       date: this.sesionForm.get('date')?.value,
-      emotions: [],
+      emotions: this.listExpressions,
       moans: {
         ay: [],
         meDuele: [],
@@ -122,6 +124,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
           // heartbeats: data.heartbeats,
           comments: data.comments
         })
+        this.listExpressions = data.emotions
       })
     }
   }
@@ -233,9 +236,32 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
   };
   
   //Detectar pulsaciones
-  public async detectarPulsaciones() {
-    await pulseraMiband.conectarPulsera();
-  }
+  // public async detectarPulsaciones() {
+  //   await pulseraMiband.conectarPulsera();
+  // }
+
+//     async conectarPulsera(){ 
+//       let device, server, miband;
+//       device = await navigator.bluetooth.requestDevice({
+//           filters: [
+//             { services: [ MiBand.advertisementService ] }
+//           ],
+//           optionalServices: MiBand.optionalServices
+//         });
+        
+//       server = await device.gatt.connect();
+//       console.log('Pulsera conectada');
+      
+//       miband = new MiBand(server);
+//       await miband.init();
+      
+//       // console.log('Notifications demo...');
+//       // await miband.showNotification('message');
+//       miband.on('heart_rate', (rate) => {
+//         console.log('Heart Rate:', rate)
+//       })
+//       await miband.hrmStart();
+// }
 
   
   //Método para el envío de las emociones hacia el servidor
