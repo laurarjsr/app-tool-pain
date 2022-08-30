@@ -20,6 +20,7 @@
     "@angular/router": "~13.3.0",
     "@tensorflow/tfjs-core": "^3.18.0",
     "@tensorflow/tfjs-node": "^3.18.0",
+    "@types/web-bluetooth": "^0.0.15",
     "@types/webgl2": "^0.0.6",
     "bootstrap": "^5.2.0-beta1",
     "canvas": "^2.9.3",

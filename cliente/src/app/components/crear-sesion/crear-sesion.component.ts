@@ -1,3 +1,4 @@
+/// <reference types="web-bluetooth" />
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -62,6 +63,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
     this.checkMediaSource();
     this.getSizeCam();
     // this.detectarPulsaciones();
+    // this.conectarPulsera();
   }
 
   ngOnDestroy(): void {
@@ -77,12 +79,12 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
       date: this.sesionForm.get('date')?.value,
       emotions: this.listExpressions,
       moans: {
-        ay: [],
-        meDuele: [],
-        para: [],
-        noAguanto: [],
-        noPuedoMas: [],
-        noPuedoSeguir: []
+        ay: this.ay,
+        meDuele: this.meDuele,
+        para: this.para,
+        noAguanto: this.noAguanto,
+        noPuedoMas: this.noPuedoMas,
+        noPuedoSeguir: this.noPuedoSeguir
       },
       heartbeats:[], 
       comments: this.sesionForm.get('comments')?.value
@@ -124,7 +126,16 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
           // heartbeats: data.heartbeats,
           comments: data.comments
         })
-        this.listExpressions = data.emotions
+        //Guardamos las emociones que ya había para no machacar el valor previo
+        this.listExpressions = data.emotions;
+
+        //Guardamos los quejidos que ya había para no machacar el valor previo
+        this.ay = data.emotions.ay;
+        this.meDuele = data.emotions.meDuele;
+        this.para = data.emotions.para;
+        this.noAguanto = data.emotions.noAguanto;
+        this.noPuedoMas = data.emotions.noPuedoMas;
+        this.noPuedoSeguir = data.emotions.noPuedoSeguir;
       })
     }
   }
@@ -240,28 +251,28 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
   //   await pulseraMiband.conectarPulsera();
   // }
 
-//     async conectarPulsera(){ 
-//       let device, server, miband;
-//       device = await navigator.bluetooth.requestDevice({
-//           filters: [
-//             { services: [ MiBand.advertisementService ] }
-//           ],
-//           optionalServices: MiBand.optionalServices
-//         });
+    async conectarPulsera(){ 
+      let device, server, miband;
+      device = await navigator.bluetooth.requestDevice({
+          filters: [
+            { services: [ MiBand.advertisementService ] }
+          ],
+          optionalServices: MiBand.optionalServices
+        });
         
-//       server = await device.gatt.connect();
-//       console.log('Pulsera conectada');
+      server = await device.gatt.connect();
+      console.log('Pulsera conectada');
       
-//       miband = new MiBand(server);
-//       await miband.init();
+      miband = new MiBand(server);
+      await miband.init();
       
-//       // console.log('Notifications demo...');
-//       // await miband.showNotification('message');
-//       miband.on('heart_rate', (rate) => {
-//         console.log('Heart Rate:', rate)
-//       })
-//       await miband.hrmStart();
-// }
+      // console.log('Notifications demo...');
+      // await miband.showNotification('message');
+      miband.on('heart_rate', (rate) => {
+        console.log('Heart Rate:', rate)
+      })
+      await miband.hrmStart();
+}
 
   
   //Método para el envío de las emociones hacia el servidor
