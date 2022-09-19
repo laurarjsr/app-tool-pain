@@ -64,7 +64,28 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
     this.checkMediaSource();
     this.getSizeCam();
     // this.detectarPulsaciones();
-    this.conectarPulsera();
+
+    // this.conectarPulsera();
+    // const MiBand = require('miband');
+    //   const device = await navigator.bluetooth.requestDevice({
+    //     filters: [
+    //       { services: [ MiBand.advertisementService ] }
+    //     ],
+    //     optionalServices: MiBand.optionalServices
+    //   });
+      
+    // const server = await device.gatt.connect();
+    // console.log('Pulsera conectada');
+    
+    // let miband = new MiBand(server);
+    // await miband.init();
+    
+    // // console.log('Notifications demo...');
+    // // await miband.showNotification('message');
+    // miband.on('heart_rate', (rate) => {
+    //   console.log('Heart Rate:', rate)
+    // })
+    // await miband.hrmStart();
   }
 
   ngOnDestroy(): void {
@@ -254,10 +275,6 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
   };
   
   //Detectar pulsaciones
-  // public async detectarPulsaciones() {
-  //   await pulseraMiband.conectarPulsera();
-  // }
-
     async conectarPulsera(){ 
       console.log("entro a conectar pulsera");
       let device, server, miband;
