@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import { MoansRecognitionService } from 'src/app/moans-recognition.service';
 // const MiBand = require('miband');
 declare var MiBand: any;
+import * as MiBand from 'miband';
 
 @Component({
   selector: 'app-crear-sesion',
@@ -63,7 +64,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
     this.checkMediaSource();
     this.getSizeCam();
     // this.detectarPulsaciones();
-    // this.conectarPulsera();
+    this.conectarPulsera();
   }
 
   ngOnDestroy(): void {
@@ -79,12 +80,18 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
       date: this.sesionForm.get('date')?.value,
       emotions: this.listExpressions,
       moans: {
-        ay: this.ay,
-        meDuele: this.meDuele,
-        para: this.para,
-        noAguanto: this.noAguanto,
-        noPuedoMas: this.noPuedoMas,
-        noPuedoSeguir: this.noPuedoSeguir
+        // ay: this.ay,
+        // meDuele: this.meDuele,
+        // para: this.para,
+        // noAguanto: this.noAguanto,
+        // noPuedoMas: this.noPuedoMas,
+        // noPuedoSeguir: this.noPuedoSeguir
+        ay: [],
+        meDuele: [],
+        para: [],
+        noAguanto: [],
+        noPuedoMas: [],
+        noPuedoSeguir: []
       },
       heartbeats:[], 
       comments: this.sesionForm.get('comments')?.value
@@ -130,12 +137,12 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
         this.listExpressions = data.emotions;
 
         //Guardamos los quejidos que ya había para no machacar el valor previo
-        this.ay = data.emotions.ay;
-        this.meDuele = data.emotions.meDuele;
-        this.para = data.emotions.para;
-        this.noAguanto = data.emotions.noAguanto;
-        this.noPuedoMas = data.emotions.noPuedoMas;
-        this.noPuedoSeguir = data.emotions.noPuedoSeguir;
+        // this.ay = data.emotions.ay;
+        // this.meDuele = data.emotions.meDuele;
+        // this.para = data.emotions.para;
+        // this.noAguanto = data.emotions.noAguanto;
+        // this.noPuedoMas = data.emotions.noPuedoMas;
+        // this.noPuedoSeguir = data.emotions.noPuedoSeguir;
       })
     }
   }
@@ -252,6 +259,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
   // }
 
     async conectarPulsera(){ 
+      console.log("entro a conectar pulsera");
       let device, server, miband;
       device = await navigator.bluetooth.requestDevice({
           filters: [
