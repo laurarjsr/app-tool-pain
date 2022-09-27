@@ -101,18 +101,12 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
       date: this.sesionForm.get('date')?.value,
       emotions: this.listExpressions,
       moans: {
-        // ay: this.ay,
-        // meDuele: this.meDuele,
-        // para: this.para,
-        // noAguanto: this.noAguanto,
-        // noPuedoMas: this.noPuedoMas,
-        // noPuedoSeguir: this.noPuedoSeguir
-        ay: [],
-        meDuele: [],
-        para: [],
-        noAguanto: [],
-        noPuedoMas: [],
-        noPuedoSeguir: []
+        ay: this.ay,
+        meDuele: this.meDuele,
+        para: this.para,
+        noAguanto: this.noAguanto,
+        noPuedoMas: this.noPuedoMas,
+        noPuedoSeguir: this.noPuedoSeguir
       },
       heartbeats:[], 
       comments: this.sesionForm.get('comments')?.value
@@ -158,12 +152,12 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
         this.listExpressions = data.emotions;
 
         //Guardamos los quejidos que ya había para no machacar el valor previo
-        // this.ay = data.emotions.ay;
-        // this.meDuele = data.emotions.meDuele;
-        // this.para = data.emotions.para;
-        // this.noAguanto = data.emotions.noAguanto;
-        // this.noPuedoMas = data.emotions.noPuedoMas;
-        // this.noPuedoSeguir = data.emotions.noPuedoSeguir;
+        this.ay = data.moans.ay;
+        this.meDuele = data.moans.meDuele;
+        this.para = data.moans.para;
+        this.noAguanto = data.moans.noAguanto;
+        this.noPuedoMas = data.moans.noPuedoMas;
+        this.noPuedoSeguir = data.moans.noPuedoSeguir;
       })
     }
   }
@@ -209,7 +203,11 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
 
           //Añadimos al array de las emociones un atributo para la fecha
           expressions.fecha = new Date();
-          this.listExpressions.push(expressions);
+          //Para que no se almacene un volumen de datos tan grande guardamos las expresiones cada 5 sec
+          setInterval(
+            this.listExpressions.push(expressions),
+            5000
+          );
           console.log(this.listExpressions);
         }
       });
