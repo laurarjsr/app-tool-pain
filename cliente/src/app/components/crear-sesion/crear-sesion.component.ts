@@ -276,6 +276,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
     async conectarPulsera(){ 
       console.log("entro a conectar pulsera");
       let device, server, miband;
+      // MiBand = require('miband');
       device = await navigator.bluetooth.requestDevice({
           filters: [
             { services: [ MiBand.advertisementService ] }
