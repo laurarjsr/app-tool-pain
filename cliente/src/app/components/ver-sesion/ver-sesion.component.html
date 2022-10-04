@@ -1,0 +1,48 @@
+<!-- <p>ver-sesion works!</p> -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary" routerLink="/ver-paciente">Listado sesiones</button>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg offset-lg">
+            <div class="card">
+                <div class="card-body">
+                    <span class="titulo"><strong>Ver Sesion: {{this.id}}</strong></span>
+                    <br>
+                    <div class="container mt-3 mb-3">
+                        <div class="row">
+                            <div class="col">
+                                <br><strong>Ejercicios a realizar:</strong> {{sesionData.exerciseToDo}}
+                                <br><strong>Duración total aproximada:</strong> {{sesionData.aproxTotalDuration}} minutos
+                                <br><strong>Duración total real:</strong> {{sesionData.actualTotalDuration}} minutos
+                                <br><strong>Fecha de la sesión:</strong> {{sesionData.date}}<strong>
+                                <br>Observaciones:</strong> {{sesionData.comments}}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <canvas id="stackedBarQuejidos"></canvas>
+                            </div>
+                            <div class="col">
+                                <canvas id="linePulsaciones"></canvas>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <canvas id="pieEmociones"></canvas>
+                            </div>
+                            <div class="col">
+                                <canvas id="lineQuejidos"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

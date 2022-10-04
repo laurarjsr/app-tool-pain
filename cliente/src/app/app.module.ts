@@ -12,6 +12,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
 import { EmotionsPlayerComponent } from './emotions-player/emotions-player.component';
 import { EmocionesPipe } from './pipes/emociones.pipe';
+import { VerSesionComponent } from './components/ver-sesion/ver-sesion.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { EmocionesPipe } from './pipes/emociones.pipe';
     CrearSesionComponent,
     VerPacienteComponent,
     EmotionsPlayerComponent,
-    EmocionesPipe
+    EmocionesPipe,
+    VerSesionComponent
   ],
   imports: [
     BrowserModule,
