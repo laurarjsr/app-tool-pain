@@ -21,17 +21,22 @@ export class VerSesionComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerDatosSesion();
-    this.stackedBarQuejidos();
-    this.linePulsaciones();
-    this.pieEmociones();
-    this.lineQuejidos();
+    setTimeout(() => {          
+      this.doughnutEmociones();
+      this.stackedBarQuejidos();
+      this.linePulsaciones();
+      }, 3000)
+    ;
   }
 
   obtenerDatosSesion() {
     if(this.id !== null){
       this._sesionService.obtenerSesion(this.id).subscribe(data => {
+        //Guardamos en sesionData toda la información de la sesión actual
         this.sesionData = data;
         console.log(this.sesionData);
+        console.log(this.sesionData.emotions.length);
+        console.log(this.sesionData.moans['ay'].length);
       }, error => {
         console.log(error);
       })
@@ -41,17 +46,25 @@ export class VerSesionComponent implements OnInit {
 
   //Número de quejidos en función del ejercicio realizado
   stackedBarQuejidos(){
+    var totalPorQuejido = {
+      "quejidoAy": this.sesionData.moans['ay'].length,
+      "quejidoMeDuele": this.sesionData.moans['meDuele'].length,
+      "quejidoPara": this.sesionData.moans['para'].length,
+      "quejidoNoPuedoMas": this.sesionData.moans['noAguanto'].length,
+      "quejidoNoPuedoSeguir": this.sesionData.moans['noPuedoMas'].length,
+      "quejidoNoAguanto": this.sesionData.moans['noPuedoSeguir'].length
+    }
+
     const stackedBarQuejidos = new Chart("stackedBarQuejidos", {
       type: 'bar',
       data: {
         labels: [
-          'Enrrollar una toalla',
-          'Hacer la letra O',
-          'Hacer puño'
+          '¡Ay!', '¡Me duele!', '¡Para!', '¡No puedo más!', '¡No puedo seguir!', '¡No aguanto!'
         ],
         datasets: [{
-          label: 'Número de quejidos en función del ejercicio realizado',
-          data: [2, 1, 4],
+          label: 'Número de quejidos durante la sesión',
+          //Sustituir por los valores de la base de datos
+          data: [totalPorQuejido.quejidoAy, totalPorQuejido.quejidoMeDuele, totalPorQuejido.quejidoPara, totalPorQuejido.quejidoNoPuedoMas, totalPorQuejido.quejidoNoPuedoSeguir, totalPorQuejido.quejidoNoAguanto],
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgb(54, 162, 235, 0.2)',
@@ -71,12 +84,28 @@ export class VerSesionComponent implements OnInit {
     });
   }
 
-  //Ejemplo pulsaciones durante la sesión
+  //Ejemplo pulsaciones durante la sesión, SUSTITUIR POR LOS VALORES DE LA BASE DE DATOS
   linePulsaciones(){
+    //El array de las pulsaciones sería así:
+      // "heartbeats": [
+      //   {
+      //     "pulsacion": 68,
+      //     "date": "2022-09-27T15:29:32.014Z"
+      //   },
+      //   {
+      //     "pulsacion": 68,
+      //     "date": "2022-09-27T15:29:32.014Z"
+      //   },
+      //   {
+      //     "pulsacion": 68,
+      //     "date": "2022-09-27T15:29:32.014Z"
+      //   },
+      // ]
+      
     const linePulsaciones = new Chart("linePulsaciones", {
       type: 'line',
       data: {
-        labels: ['29/09/2022 17:56:08', '29/09/2022 17:56:13', '29/09/2022 17:56:18', '29/09/2022 17:56:23', '29/09/2022 17:56:28', '29/09/2022 17:56:33', '29/09/2022 17:56:38', '29/09/2022 17:56:43', '29/09/2022 17:56:48', '29/09/2022 17:56:53', '29/09/2022 17:56:58', '29/09/2022 17:57:03', '29/09/2022 17:57:08', '29/09/2022 17:56:13'],
+        labels: ['29/09/2022 17:56:08', '29/09/2022 17:56:13', '29/09/2022 17:56:18', '29/09/2022 17:56:23', '29/09/2022 17:56:28', '29/09/2022 17:56:33', '29/09/2022 17:56:38', '29/09/2022 17:56:43', '29/09/2022 17:56:48', '29/09/2022 17:56:53', '29/09/2022 17:56:58', '29/09/2022 17:57:03', '29/09/2022 17:57:08', '29/09/2022 17:57:13'],
         datasets: [{
           label: 'Pulsaciones durante la sesión (cada 5 segundos)',
           data: [65, 74, 95, 80, 76, 68, 64, 67, 72, 83, 87, 92, 85, 79],
@@ -91,8 +120,44 @@ export class VerSesionComponent implements OnInit {
 
 
   //Emociones durante la sesión
-  pieEmociones(){
-    const pieEmociones = new Chart("pieEmociones", {
+  doughnutEmociones(){
+    //Se realiza el tratamiento de los datos de las emociones antes de pintar el gráfico
+    //Cada vez que se guarda un objeto de emociones, éste contiene el porcentaje de cada emoción detectada en ese momento. Es por ello por lo que nos quedaremos con
+    //la emoción que más valor ha obtenido de cada objeto de emociones y contaremos las veces que cada emoción ha tenido el máximo valor. Se almacenará en el siguiente objeto:
+    var totalPorEmocion = {
+      "neutral": 0,
+      "happy": 0,
+      "sad": 0,
+      "angry": 0,
+      "fearful": 0,
+      "disgusted": 0,
+      "surprised": 0
+    }
+
+    this.sesionData.emotions.forEach((emocion) => {
+      var acum = 0;
+      var emo = "";
+
+      Object.keys(emocion).forEach((prop) => {
+        if(emocion[prop] > acum) {
+          acum = emocion[prop];
+          emo = prop;
+        }
+      })
+      totalPorEmocion[emo]++;
+    })
+
+    var totalPorEmocionPorcentaje = JSON.parse(JSON.stringify(totalPorEmocion));
+
+    Object.keys(totalPorEmocionPorcentaje).forEach((prop) => {
+      totalPorEmocionPorcentaje[prop] = (totalPorEmocionPorcentaje[prop] / this.sesionData.emotions.length) * 100;
+    })
+
+    console.log("Total de emociones:" + totalPorEmocion);
+    console.log("Porcentajes emociones:" + totalPorEmocionPorcentaje);
+
+
+    const doughnutEmociones = new Chart("doughnutEmociones", {
       type: 'doughnut',
       data: {
         labels: [
@@ -106,7 +171,7 @@ export class VerSesionComponent implements OnInit {
         ],
         datasets: [{
           label: 'Emociones durante la sesión',
-          data: [5, 1, 1, 3, 1, 1, 1],
+          data: [totalPorEmocionPorcentaje['neutral'], totalPorEmocionPorcentaje['happy'], totalPorEmocionPorcentaje['sad'], totalPorEmocionPorcentaje['angry'], totalPorEmocionPorcentaje['fearful'], totalPorEmocionPorcentaje['disgusted'], totalPorEmocionPorcentaje['surprised']],
           backgroundColor: [
             'rgb(214, 214, 214)',
             'rgb(254, 255, 179)',
@@ -118,26 +183,8 @@ export class VerSesionComponent implements OnInit {
           ],
           hoverOffset: 4
         }]
-      },
+      }
     });
-  }
-
-  //Número de cada quejido durante la sesion
-  lineQuejidos(){
-    const lineQuejidos = new Chart("lineQuejidos", {
-      type: 'line',
-      data: {
-        labels: ['¡Ay!', '¡Me duele!', '¡Para!', '¡No puedo más!', '¡No puedo seguir!', '¡No aguanto!'],
-        datasets: [{
-          label: 'Número de quejidos durante la sesión',
-          data: [3,2,0,1,0,1],
-          borderColor: 'rgb(179, 187, 255)',
-          backgroundColor: 'rgb(179, 187, 255, 0.2)',
-          tension: 0.1,
-          fill: false
-        }]
-      },
-    })
   }
 
 
