@@ -10,8 +10,8 @@ const SesionSchema = mongoose.Schema({
         required: true
     },
     comments: {
-        type: String,
-        required: true
+        type: Array,
+        required: false
     },
     date: {
         type: Date,

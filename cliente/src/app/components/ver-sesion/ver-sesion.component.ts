@@ -25,7 +25,7 @@ export class VerSesionComponent implements OnInit {
       this.doughnutEmociones();
       this.stackedBarQuejidos();
       this.linePulsaciones();
-      }, 3000)
+      }, 500)
     ;
   }
 

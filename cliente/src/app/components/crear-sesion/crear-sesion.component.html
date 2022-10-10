@@ -164,18 +164,35 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <button (click)="envioDeQuejidos()" class="btn btn-info">Enviar quejidos</button>
-                            <button (click)="pararEnvioDeQuejidos()" class="btn btn-danger">Parar envío de quejidos</button>
+                            <!-- <button (click)="envioDeQuejidos()" class="btn btn-info">Enviar quejidos</button>
+                            <button (click)="pararEnvioDeQuejidos()" class="btn btn-danger">Parar envío de quejidos</button> -->
                         </div>
-
+                        
+                        <table class="table" *ngIf="listComments.length > 0">
+                            <thead>
+                                <tr class="table-primary">
+                                    <th scope="col">Nota</th>
+                                    <th scope="col">Instante temporal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let comentario of listComments">
+                                    <td>{{comentario.nota}}</td>
+                                    <td>{{comentario.fecha.toLocaleString('es-ES', {dateStyle:"full", timeStyle:
+                                        "medium"})}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <div class="mb-3">
-                            <textarea type="text" formControlName="comments" class="form-control form-control-lg"
-                                placeholder="Observaciones"></textarea>
+                            <input type="text" id="inputNotas" formControlName="comments" class="form-control form-control-lg"
+                                placeholder="Observaciones">
+                            <button id="btnAgregarNota" type="button" class="btn btn-info" (click)="publicarComentarios()">+ Añadir nota</button>
                             <div class="text-danger"
                                 *ngIf="sesionForm.get('comments')?.hasError('required') && sesionForm.get('comments')?.touched">
                                 <span>La fecha <strong>es obligatoria</strong></span>
                             </div>
                         </div>
+
                         <div class="mb-3">
                             <button routerLink="/ver-paciente"
                                 class="btn btn-danger btn-lg float-start">Cancelar</button>

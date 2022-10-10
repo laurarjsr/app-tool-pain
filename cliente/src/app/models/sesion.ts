@@ -5,11 +5,11 @@ export class Sesion{
     heartbeats: Array<any>;
     emotions: Array<any>;
     moans: Object;
-    comments: string;
+    comments: Array<any>;
     exerciseToDo: string;
     date: Date;
 
-    constructor(aproxTotalDuration: number, actualTotalDuration: number, heartbeats: Array<any>, emotions: Array<any>, moans: Object, comments: string, exerciseToDo: string, date: Date){
+    constructor(aproxTotalDuration: number, actualTotalDuration: number, heartbeats: Array<any>, emotions: Array<any>, moans: Object, comments: Array<any>, exerciseToDo: string, date: Date){
         this.aproxTotalDuration = aproxTotalDuration;
         this.actualTotalDuration = actualTotalDuration;
         this.heartbeats = heartbeats;

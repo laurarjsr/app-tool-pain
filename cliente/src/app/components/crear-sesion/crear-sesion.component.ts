@@ -41,6 +41,9 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
   intervaloTiempoEmocionesID: any;
   intervaloTiempoQuejidosID: any;
 
+  //Variable para almacenar los comentarios junto con la hora
+  listComments: any = [];
+
 
 
   constructor(private fb: FormBuilder, private router: Router, private toastr: ToastrService, private _sesionService: SesionService, private aRouter: ActivatedRoute, private faceApiService: FaceApiService, private render: Renderer2, private elementRef: ElementRef, private videoPlayerService: VideoPlayerService, private speech: MoansRecognitionService) {
@@ -109,7 +112,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
         noPuedoSeguir: this.noPuedoSeguir
       },
       heartbeats:[], 
-      comments: this.sesionForm.get('comments')?.value
+      comments: this.listComments
     }
 
     if (this.id !== null) {
@@ -158,8 +161,24 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
         this.noAguanto = data.moans.noAguanto;
         this.noPuedoMas = data.moans.noPuedoMas;
         this.noPuedoSeguir = data.moans.noPuedoSeguir;
+
+        //Guardamos los comentarios que ya había para no machacar el valor previo
+        // this.listComments = data.comments;
       })
     }
+  }
+
+  //Función que guarda los comentarios junto con la hora
+  publicarComentarios() {
+    //La hora de la nota será 6 segundos menos que la hora actual para restarle el tiempo que se tarda en escribir una breve nota
+    var fechaActual = new Date();
+    var segundosFechaActual = fechaActual.getTime();
+    var retrocederSegundos = 6000;
+    var comments = {
+      "nota": this.sesionForm.get('comments')?.value,
+      "fecha": new Date(segundosFechaActual - retrocederSegundos)
+    };
+    this.listComments.push(comments);
   }
 
   checkMediaSource = () => {
