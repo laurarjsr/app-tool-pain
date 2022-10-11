@@ -15,6 +15,15 @@ export class VerSesionComponent implements OnInit {
   sesionData: Sesion;
   id: string | null;
 
+  listMoans: any = [];
+  listExpressions: any = [];
+  listPulsaciones: any = [];
+  numMoans;
+  listEmotionsPorFecha: any = [];
+
+  //Variable para almacenar el nombre de la emoción que tiene mayor valor junto con la fecha
+  emocionPorObjeto: any = [];
+
   constructor(private _sesionService: SesionService, private router: Router, private aRouter: ActivatedRoute) { 
     this.id = this.aRouter.snapshot.paramMap.get('id');
   }
@@ -37,6 +46,12 @@ export class VerSesionComponent implements OnInit {
         console.log(this.sesionData);
         console.log(this.sesionData.emotions.length);
         console.log(this.sesionData.moans['ay'].length);
+        this.listMoans = data.moans;
+        this.listExpressions = data.emotions;
+        this.listPulsaciones = data.heartbeats;
+        this.numMoans = data.moans['ay'].length;
+        console.log(this.numMoans)
+        console.log(this.listMoans['ay'][1]);
       }, error => {
         console.log(error);
       })
@@ -137,14 +152,16 @@ export class VerSesionComponent implements OnInit {
     this.sesionData.emotions.forEach((emocion) => {
       var acum = 0;
       var emo = "";
-
       Object.keys(emocion).forEach((prop) => {
         if(emocion[prop] > acum) {
           acum = emocion[prop];
           emo = prop;
         }
       })
+      this.emocionPorObjeto.push({emocion: emo, fecha: emocion.fecha});
       totalPorEmocion[emo]++;
+      
+      // console.log(emocionPorObjeto);
     })
 
     var totalPorEmocionPorcentaje = JSON.parse(JSON.stringify(totalPorEmocion));
@@ -153,8 +170,9 @@ export class VerSesionComponent implements OnInit {
       totalPorEmocionPorcentaje[prop] = (totalPorEmocionPorcentaje[prop] / this.sesionData.emotions.length) * 100;
     })
 
-    console.log("Total de emociones:" + totalPorEmocion);
-    console.log("Porcentajes emociones:" + totalPorEmocionPorcentaje);
+    console.log(totalPorEmocion);
+    console.log(totalPorEmocionPorcentaje);
+    console.log(this.emocionPorObjeto);
 
 
     const doughnutEmociones = new Chart("doughnutEmociones", {

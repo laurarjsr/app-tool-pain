@@ -19,25 +19,50 @@
                                 <br><strong>Duración total aproximada:</strong> {{sesionData.aproxTotalDuration}} minutos
                                 <br><strong>Duración total real:</strong> {{sesionData.actualTotalDuration}} minutos
                                 <br><strong>Fecha de la sesión:</strong> {{sesionData.date}}<strong>
-                                <br>Observaciones:</strong> {{sesionData.comments}}
+                                <br>Observaciones:</strong> {{sesionData.comments.length}} comentarios durante la sesión (ver tabla)
                             </div>
                         </div>
                         <br>
-                        <div class="row">
-                            <div class="col">
-                                <canvas id="stackedBarQuejidos"></canvas>
-                            </div>
-                            <div class="col">
-                                <canvas id="linePulsaciones"></canvas>
-                            </div>
-                        </div>
+                            <canvas style="margin-top: 10px;" height="80" id="linePulsaciones"></canvas>
                         <br>
-                        <div class="row">
+                        <div style="margin-top: 20px;" class="row">
                             <div class="col">
-                                <canvas id="doughnutEmociones" height="300" width="300"></canvas>
+                                <canvas id="doughnutEmociones"></canvas>
                             </div>
                             <div class="col">
-                                
+                                <table class="table">
+                                    <thead>
+                                        <tr class="table-primary">
+                                            <th scope="col">Nota</th>
+                                            <th scope="col">Emoción</th>
+                                            <th scope="col">Quejido</th>
+                                            <th scope="col">Pulsaciones</th>
+                                            <th scope="col">Instante temporal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let comentario of sesionData.comments">
+                                            <td>{{comentario.nota}}</td>
+                                            <td *ngIf="listExpressions[0].fecha==comentario.fecha && emocionPorObjeto[0].fecha == comentario.fecha">{{emocionPorObjeto[0].emocion | emociones}}</td>
+                                            <td *ngIf="listExpressions[1].fecha==comentario.fecha && emocionPorObjeto[1].fecha == comentario.fecha">{{emocionPorObjeto[1].emocion | emociones}}</td>
+                                            <td *ngIf="listExpressions[2].fecha==comentario.fecha && emocionPorObjeto[2].fecha == comentario.fecha">{{emocionPorObjeto[2].emocion | emociones}}</td>
+
+                                            <td *ngIf="listMoans['ay'][0]==comentario.fecha">¡Ay!</td>
+                                            <td *ngIf="listMoans['meDuele'][0]==comentario.fecha">¡Me duele!</td>
+                                            <td *ngIf="listMoans['para'][0]==comentario.fecha">¡Para!</td>
+
+                                            <td *ngIf="listPulsaciones[0].fecha==comentario.fecha && listPulsaciones[0].pulsacion>100">{{listPulsaciones[0].pulsacion}}</td>
+                                            <td *ngIf="listPulsaciones[1].fecha==comentario.fecha && listPulsaciones[1].pulsacion>100">{{listPulsaciones[1].pulsacion}}</td>
+                                            <td *ngIf="listPulsaciones[2].fecha==comentario.fecha && listPulsaciones[2].pulsacion>100">{{listPulsaciones[2].pulsacion}}</td>
+
+                                            <td>{{comentario.fecha.toLocaleString('es-ES', {dateStyle:"full", timeStyle:
+                                                "medium"})}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- <ng-template #noEmocion>No hay emoción</ng-template>
+                                <ng-template #noQuejido>No hay quejido</ng-template>
+                                <ng-template #noPulsacion>No hay pulsaciones</ng-template> -->
                             </div>
                         </div>
                     </div>
