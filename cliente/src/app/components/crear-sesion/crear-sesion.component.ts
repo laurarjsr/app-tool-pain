@@ -12,6 +12,7 @@ import { MoansRecognitionService } from 'src/app/moans-recognition.service';
 // const MiBand = require('miband');
 declare var MiBand: any;
 import * as MiBand from 'miband';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-crear-sesion',
@@ -22,6 +23,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
   sesionForm: FormGroup;
   titulo = 'Crear Sesión';
   id: string | null;
+  sesionData: Sesion;
 
   //---Variables para la detección de las emociones---
   public currentStream: any;
@@ -118,7 +120,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
     if (this.id !== null) {
       //editamos sesion
       this._sesionService.editarSesion(this.id, SESION).subscribe(data => {
-        this.toastr.info('El sesion fue actualizado con éxito!', 'Sesión actualizada');
+        this.toastr.info('¡El sesión fue actualizada con éxito!', 'Sesión actualizada');
         this.router.navigate(['/']);
       }, error => {
         console.log(error);
@@ -128,7 +130,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
       //agregamos sesión
       console.log(SESION);
       this._sesionService.guardarSesion(SESION).subscribe(data => {
-        this.toastr.success('La sesion fue registrada con éxito!', 'Sesión registrada');
+        this.toastr.success('¡La sesión fue registrada con éxito!', 'Sesión registrada');
         this.router.navigate(['/']);
       }, error => {
         console.log(error);
@@ -141,16 +143,20 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
     if (this.id !== null) {
       this.titulo = 'Editar sesión';
       this._sesionService.obtenerSesion(this.id).subscribe(data => {
+        this.sesionData = data;
+        var editDate = moment.utc(data.date).format('YYYY-MM-DD');
+        console.log(editDate);
         this.sesionForm.setValue({
           exerciseToDo: data.exerciseToDo,
           aproxTotalDuration: data.aproxTotalDuration,
           actualTotalDuration: data.actualTotalDuration,
-          date: data.date,
+          date: editDate,
           // emotions: data.emotions,
           // moans: data.moans,
           // heartbeats: data.heartbeats,
-          comments: data.comments
+          comments: []
         })
+        console.log(data.comments)
         //Guardamos las emociones que ya había para no machacar el valor previo
         this.listExpressions = data.emotions;
 
@@ -163,7 +169,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
         this.noPuedoSeguir = data.moans.noPuedoSeguir;
 
         //Guardamos los comentarios que ya había para no machacar el valor previo
-        // this.listComments = data.comments;
+        this.listComments = data.comments;
       })
     }
   }

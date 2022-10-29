@@ -1,8 +1,7 @@
-<!-- <p>ver-sesion works!</p> -->
 <div class="container mt-5">
     <div class="row">
         <div class="col">
-            <button class="btn btn-primary" routerLink="/ver-paciente">Listado sesiones</button>
+            <button class="btn" style="background-color: #2679b4; color: #ffffff;" routerLink="/ver-paciente">Listado sesiones</button>
         </div>
     </div>
     <br>
@@ -10,10 +9,9 @@
         <div class="col-lg offset-lg">
             <div class="card">
                 <div class="card-body">
-                    <span class="titulo"><strong>Ver Sesion: {{this.id}}</strong></span>
-                    <br>
+                    <span class="titulo"><strong>Ver Sesión: {{this.id}}</strong></span>
                     <div class="container mt-3 mb-3">
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col">
                                 <br><strong>Ejercicios a realizar:</strong> {{sesionData.exerciseToDo}}
                                 <br><strong>Duración total aproximada:</strong> {{sesionData.aproxTotalDuration}} minutos
@@ -21,23 +19,94 @@
                                 <br><strong>Fecha de la sesión:</strong> {{sesionData.date}}<strong>
                                 <br>Observaciones:</strong> {{sesionData.comments.length}} comentarios durante la sesión (ver tabla)
                             </div>
+                        </div> -->
+                        <div style="width: 55%; float:left; font-family:'Montserrat', sans-serif;">
+                            <strong>Ejercicios a realizar:</strong> {{sesionData.exerciseToDo}}
+                            <br><strong>Duración total aproximada:</strong> {{sesionData.aproxTotalDuration}} minutos
+                            <br><strong>Duración total real:</strong> {{sesionData.actualTotalDuration}} minutos
+                         </div>
+                         <div style="width: 45%; float:right; font-family:'Montserrat', sans-serif;">
+                            <strong>Fecha de la sesión:</strong> {{editDate}}<strong>
+                            <br>Observaciones:</strong> {{sesionData.comments.length}} comentarios durante la sesión (ver tabla)
                         </div>
+                        <br>
+                        <br>
                         <br>
                             <canvas style="margin-top: 10px;" height="80" id="linePulsaciones"></canvas>
                         <br>
-                        <div style="margin-top: 20px;" class="row">
+                        <br>
+                        <div style="width: 35%; float:left; font-family:'Montserrat', sans-serif;">
+                            <canvas id="doughnutEmociones"></canvas>
+                        </div>
+                        <div style="width: 65%; float:right; font-family:'Montserrat', sans-serif;">
+                            <br>
+                            <br>
+                            <table class="table" style="font-family:'Montserrat', sans-serif;">
+                                <thead>
+                                    <tr style="background-color: #2679b4;">
+                                        <th style="color: #ffffff;" scope="col">Nota</th>
+                                        <th style="color: #ffffff;" scope="col">Emoción</th>
+                                        <th style="color: #ffffff;" scope="col">Quejido</th>
+                                        <th style="color: #ffffff;" scope="col">Pulsaciones</th>
+                                        <th style="color: #ffffff;" scope="col">Instante temporal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let comentario of sesionData.comments">
+                                        <td>{{comentario.nota}}</td>
+                                        <td *ngIf="listExpressions[0].fecha==comentario.fecha && emocionPorObjeto[0].fecha == comentario.fecha">{{emocionPorObjeto[0].emocion | emociones}}</td>
+                                        <td *ngIf="listExpressions[1].fecha==comentario.fecha && emocionPorObjeto[1].fecha == comentario.fecha">{{emocionPorObjeto[1].emocion | emociones}}</td>
+                                        <td *ngIf="listExpressions[2].fecha==comentario.fecha && emocionPorObjeto[2].fecha == comentario.fecha">{{emocionPorObjeto[2].emocion | emociones}}</td>
+
+                                        <td *ngIf="listMoans['ay'][0]==comentario.fecha">¡Ay!</td>
+                                        <td *ngIf="listMoans['meDuele'][0]==comentario.fecha">¡Me duele!</td>
+                                        <td *ngIf="listMoans['para'][0]==comentario.fecha">¡Para!</td>
+
+                                        <td *ngIf="listPulsaciones[0].fecha==comentario.fecha && listPulsaciones[0].pulsacion>100">{{listPulsaciones[0].pulsacion}}</td>
+                                        <td *ngIf="listPulsaciones[1].fecha==comentario.fecha && listPulsaciones[1].pulsacion>100">{{listPulsaciones[1].pulsacion}}</td>
+                                        <td *ngIf="listPulsaciones[2].fecha==comentario.fecha && listPulsaciones[2].pulsacion>100">{{listPulsaciones[2].pulsacion}}</td>
+
+                                        <td>{{comentario.fecha.toLocaleString('es-ES', {dateStyle:"full", timeStyle:
+                                            "medium"})}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <table class="table" style="font-family:'Montserrat', sans-serif;">
+                            <thead>
+                                <tr style="background-color: #2679b4;">
+                                    <th style="color: #ffffff;" scope="col">Nota</th>
+                                    <th style="color: #ffffff;" scope="col">Emoción</th>
+                                    <th style="color: #ffffff;" scope="col">Quejido</th>
+                                    <th style="color: #ffffff;" scope="col">Pulsaciones</th>
+                                    <th style="color: #ffffff;" scope="col">Instante temporal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let event of eventos">
+                                    <td>{{event.nota}}</td>
+                                    <td>{{event.emocion | emociones}}</td>
+                                    <td>{{event.quejido}}</td>
+                                    <td>{{event.pulsacion}}</td>
+                                    <td>{{event.fecha}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- <div style="margin-top: 20px;" class="row">
                             <div class="col">
                                 <canvas id="doughnutEmociones"></canvas>
                             </div>
                             <div class="col">
-                                <table class="table">
+                                <table class="table" style="font-family:'Montserrat', sans-serif;">
                                     <thead>
-                                        <tr class="table-primary">
-                                            <th scope="col">Nota</th>
-                                            <th scope="col">Emoción</th>
-                                            <th scope="col">Quejido</th>
-                                            <th scope="col">Pulsaciones</th>
-                                            <th scope="col">Instante temporal</th>
+                                        <tr style="background-color: #2679b4;">
+                                            <th style="color: #ffffff;" scope="col">Nota</th>
+                                            <th style="color: #ffffff;" scope="col">Emoción</th>
+                                            <th style="color: #ffffff;" scope="col">Quejido</th>
+                                            <th style="color: #ffffff;" scope="col">Pulsaciones</th>
+                                            <th style="color: #ffffff;" scope="col">Instante temporal</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -60,11 +129,11 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <!-- <ng-template #noEmocion>No hay emoción</ng-template>
+                                <ng-template #noEmocion>No hay emoción</ng-template>
                                 <ng-template #noQuejido>No hay quejido</ng-template>
-                                <ng-template #noPulsacion>No hay pulsaciones</ng-template> -->
+                                <ng-template #noPulsacion>No hay pulsaciones</ng-template>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

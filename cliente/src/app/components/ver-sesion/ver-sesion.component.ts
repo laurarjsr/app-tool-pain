@@ -3,6 +3,7 @@ import { Sesion } from 'src/app/models/sesion';
 import { SesionService } from 'src/app/services/sesion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Chart, registerables } from 'node_modules/chart.js';
+import * as moment from 'moment';
 Chart.register(...registerables);
 
 @Component({
@@ -20,6 +21,16 @@ export class VerSesionComponent implements OnInit {
   listPulsaciones: any = [];
   numMoans;
   listEmotionsPorFecha: any = [];
+  editDate: any;
+
+  //Objeto de eventos importantes
+  eventos = [{
+    nota: "",
+    emocion: "",
+    quejido: "",
+    pulsacion: "",
+    fecha: ""
+  }]
 
   //Variable para almacenar el nombre de la emoción que tiene mayor valor junto con la fecha
   emocionPorObjeto: any = [];
@@ -42,16 +53,127 @@ export class VerSesionComponent implements OnInit {
     if(this.id !== null){
       this._sesionService.obtenerSesion(this.id).subscribe(data => {
         //Guardamos en sesionData toda la información de la sesión actual
+        console.log(data);
         this.sesionData = data;
-        console.log(this.sesionData);
-        console.log(this.sesionData.emotions.length);
-        console.log(this.sesionData.moans['ay'].length);
         this.listMoans = data.moans;
         this.listExpressions = data.emotions;
         this.listPulsaciones = data.heartbeats;
         this.numMoans = data.moans['ay'].length;
-        console.log(this.numMoans)
-        console.log(this.listMoans['ay'][1]);
+        moment.locale('es');
+        this.editDate = moment.utc(data.date).format('LL');
+
+        //Vamos a mapear los datos que nos vienen para obtener un array con la información de los eventos importantes
+        
+
+        data.comments.forEach((comment) => {
+          var emocionEvento = "";
+          var quejidoEvento = "";
+          var pulsacionEvento = "";
+
+            //Recorremos las emociones y nos quedamos con aquella en la que la fecha coincida con la fecha de la nota
+            data.emotions.forEach((emotion) => {
+              var acum = 0;
+              var emo = '';
+              if(emotion.fecha == comment.fecha){
+                Object.keys(emotion).forEach((prop) => {
+                  //Nos quedamos con la emoción de mayor valor
+                  if(emotion[prop] > acum) {
+                    acum = emotion[prop];
+                    emo = prop; //en emo tenemos la emoción mayor
+                  }
+                  //Si para esa fecha hay una emoción registrada almacenamos la emoción, si no, almacenamos un mensaje informativo
+                  if(emo != null){
+                    emocionEvento = emo;
+                  }else{
+                    emocionEvento = "No hay emoción en ese tiempo";
+                  }
+                })
+              }
+            })
+
+            //Recorremos el quejido AY
+            data.moans['ay'].forEach((moan) => {
+              console.log(moan);
+              if(moan == comment.fecha){
+                quejidoEvento = '¡Ay!';
+              }else{
+                quejidoEvento = "No hay quejido en ese tiempo";
+              }
+            })
+
+            //Recorremos el quejido meDuele
+            data.moans['meDuele'].forEach((moan) => {
+                  if(moan == comment.fecha){
+                    quejidoEvento = '¡Me duele!';
+                  }else{
+                    quejidoEvento = "No hay quejido en ese tiempo";
+                  }
+            })
+
+            //Recorremos el quejido para
+            data.moans['para'].forEach((moan) => {
+              if(moan == comment.fecha){
+                quejidoEvento = '¡Para!';
+              }else{
+                quejidoEvento = "No hay quejido en ese tiempo";
+              }
+            })
+
+            //Recorremos el quejido noAguanto
+            data.moans['noAguanto'].forEach((moan) => {
+              if(moan == comment.fecha){
+                quejidoEvento = '¡No aguanto!';
+              }else{
+                quejidoEvento = "No hay quejido en ese tiempo";
+              }
+            })
+
+            //Recorremos el quejido noPuedoMas
+            data.moans['noPuedoMas'].forEach((moan) => {
+                if(moan == comment.fecha){
+                  quejidoEvento = '¡No puedo más!';
+                }else{
+                  quejidoEvento = "No hay quejido en ese tiempo";
+                }
+            })
+
+            //Recorremos el quejido noPuedoSeguir
+            data.moans['noPuedoSeguir'].forEach((moan) => {
+              if(moan == comment.fecha){
+                quejidoEvento = '¡No puedo seguir!';
+              }else{
+                quejidoEvento = "No hay quejido en ese tiempo";
+              }
+            })
+
+            //Recorremos las pulsaciones 
+            data.heartbeats.forEach((puls) => {
+              if(puls.fecha == comment.fecha){
+                pulsacionEvento = puls.pulsacion;
+              }else{
+                pulsacionEvento = "No hay pulsación en ese tiempo";
+              }
+            })
+          
+          this.eventos.push({
+            nota: comment.nota,
+            emocion: emocionEvento,
+            quejido: quejidoEvento,
+            pulsacion: pulsacionEvento,
+            fecha: comment.fecha,
+          });
+        })
+        
+        console.log(this.eventos);
+        
+        // const mapaEventos = new Map<string, any>();
+        // //Recorremos los comentarios
+        // data.comments.forEach((comment) => {
+        //   const keyDate = comment.fecha;
+        //   mapaEventos.set("fecha", keyDate);
+        //   console.log(mapaEventos);
+        // })
+        
       }, error => {
         console.log(error);
       })

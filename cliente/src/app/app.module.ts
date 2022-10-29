@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { EmotionsPlayerComponent } from './emotions-player/emotions-player.component';
 import { EmocionesPipe } from './pipes/emociones.pipe';
 import { VerSesionComponent } from './components/ver-sesion/ver-sesion.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { VerSesionComponent } from './components/ver-sesion/ver-sesion.component
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

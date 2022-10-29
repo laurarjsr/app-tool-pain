@@ -1,34 +1,41 @@
 <div class="container mt-5">
     <div class="row">
-        <div class="col-lg-8 offset-lg-2">
-            <div class="card">
+        <div class="col-lg offset-lg">
+            <div class="card" style="background-color:   #2679b4;">
                 <div class="card-body text-center">
-                    <span class="titulo">LISTADO PACIENTES</span>
-                    <br>
-                    <br>
-                    <div class="card">
-                        <div class="card-body text-center" style="background: rgb(226, 246, 255);">
-                            <span style="font-family:'Montserrat', sans-serif;"><strong>NOMBRE:</strong> JUAN <br><strong>APELLIDOS:</strong> SÁNCHEZ LÓPEZ <br><strong>FECHA DE INICIO DE REHABILITACIÓN:</strong> 12/05/2022</span>
-                            <button class="btn float-end" routerLink="/ver-paciente"><i class="fas fa-solid fa-eye"></i></button>
+                    <strong><span class="titulo" style="color: rgb(255, 255, 255);">LISTADO PACIENTES</span></strong>
+                    <div class="card" style="margin-bottom: 10px;">
+                        <div class="card-body text-center" style="background: rgb(255, 255, 255);">
+                            <span style="font-family:'Montserrat', sans-serif;"><strong>NOMBRE:</strong> JUAN
+                                <br><strong>APELLIDOS:</strong> SÁNCHEZ LÓPEZ <br><strong>FECHA DE INICIO DE
+                                    REHABILITACIÓN:</strong> 12/05/2022</span>
+                            <button class="btn float-end" routerLink="/ver-paciente"><i
+                                    class="fas fa-solid fa-eye"></i></button>
                         </div>
                     </div>
-                    <br>
-                    <div class="card">
-                        <div class="card-body text-center" style="background: rgb(226, 246, 255);">
-                            <span style="font-family:'Montserrat', sans-serif;"><strong>NOMBRE:</strong> MARTA <br><strong>APELLIDOS:</strong> GARCÍA LÓPEZ <br><strong>FECHA DE INICIO DE REHABILITACIÓN:</strong> 03/05/2022</span>
-                            <button class="btn float-end" routerLink="/ver-paciente"><i class="fas fa-solid fa-eye"></i></button>
+                    <div class="card" style="margin-bottom: 10px;">
+                        <div class="card-body text-center" style="background: rgb(255, 255, 255);">
+                            <span style="font-family:'Montserrat', sans-serif;"><strong>NOMBRE:</strong> MARTA
+                                <br><strong>APELLIDOS:</strong> GARCÍA LÓPEZ <br><strong>FECHA DE INICIO DE
+                                    REHABILITACIÓN:</strong> 03/05/2022</span>
+                            <button class="btn float-end" routerLink="/ver-paciente"><i
+                                    class="fas fa-solid fa-eye"></i></button>
                         </div>
                     </div>
-                    <br>
-                    <div class="card">
-                        <div class="card-body text-center" style="background: rgb(226, 246, 255);">
-                            <span style="font-family:'Montserrat', sans-serif;"><strong>NOMBRE:</strong> PEPE <br><strong>APELLIDOS:</strong> PÉREZ GARCÍA <br><strong>FECHA DE INICIO DE REHABILITACIÓN:</strong> 09/03/2022</span>
-                            <button class="btn float-end" routerLink="/ver-paciente"><i class="fas fa-solid fa-eye"></i></button>
+                    <div class="card" style="margin-bottom: 10px;">
+                        <div class="card-body text-center" style="background: rgb(255, 255, 255);">
+                            <span style="font-family:'Montserrat', sans-serif;"><strong>NOMBRE:</strong> PEPE
+                                <br><strong>APELLIDOS:</strong> PÉREZ GARCÍA <br><strong>FECHA DE INICIO DE
+                                    REHABILITACIÓN:</strong> 09/03/2022</span>
+                            <button class="btn float-end" routerLink="/ver-paciente"><i
+                                    class="fas fa-solid fa-eye"></i></button>
                         </div>
                     </div>
-                    <br>
-                    <a href="">1 - 2</a>
+                    <mat-paginator style="background-color:  #2679b4; color: rgb(255, 255, 255);" [length]="100" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                        aria-label="Select page">
+                    </mat-paginator>
                 </div>
+                
             </div>
         </div>
     </div>
