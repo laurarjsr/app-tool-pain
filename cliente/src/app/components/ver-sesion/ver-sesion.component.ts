@@ -29,7 +29,8 @@ export class VerSesionComponent implements OnInit {
     emocion: "",
     quejido: "",
     pulsacion: "",
-    fecha: ""
+    fecha: "",
+    dolor: ""
   }]
 
   //Variable para almacenar el nombre de la emoción que tiene mayor valor junto con la fecha
@@ -63,17 +64,17 @@ export class VerSesionComponent implements OnInit {
         this.editDate = moment.utc(data.date).format('LL');
 
         //Vamos a mapear los datos que nos vienen para obtener un array con la información de los eventos importantes
-        
-
         data.comments.forEach((comment) => {
-          var emocionEvento = "";
-          var quejidoEvento = "";
-          var pulsacionEvento = "";
+          var emocionEvento;
+          var quejidoEvento;
+          var pulsacionEvento;
 
             //Recorremos las emociones y nos quedamos con aquella en la que la fecha coincida con la fecha de la nota
             data.emotions.forEach((emotion) => {
               var acum = 0;
               var emo = '';
+              // var emotion = data.emotions.find(emo => emo.fecha >= comment.fecha);
+
               if(emotion.fecha == comment.fecha){
                 Object.keys(emotion).forEach((prop) => {
                   //Nos quedamos con la emoción de mayor valor
@@ -90,14 +91,12 @@ export class VerSesionComponent implements OnInit {
                 })
               }
             })
-
+              
             //Recorremos el quejido AY
             data.moans['ay'].forEach((moan) => {
               console.log(moan);
               if(moan == comment.fecha){
                 quejidoEvento = '¡Ay!';
-              }else{
-                quejidoEvento = "No hay quejido en ese tiempo";
               }
             })
 
@@ -105,8 +104,6 @@ export class VerSesionComponent implements OnInit {
             data.moans['meDuele'].forEach((moan) => {
                   if(moan == comment.fecha){
                     quejidoEvento = '¡Me duele!';
-                  }else{
-                    quejidoEvento = "No hay quejido en ese tiempo";
                   }
             })
 
@@ -114,8 +111,6 @@ export class VerSesionComponent implements OnInit {
             data.moans['para'].forEach((moan) => {
               if(moan == comment.fecha){
                 quejidoEvento = '¡Para!';
-              }else{
-                quejidoEvento = "No hay quejido en ese tiempo";
               }
             })
 
@@ -123,17 +118,13 @@ export class VerSesionComponent implements OnInit {
             data.moans['noAguanto'].forEach((moan) => {
               if(moan == comment.fecha){
                 quejidoEvento = '¡No aguanto!';
-              }else{
-                quejidoEvento = "No hay quejido en ese tiempo";
               }
             })
 
             //Recorremos el quejido noPuedoMas
             data.moans['noPuedoMas'].forEach((moan) => {
-                if(moan == comment.fecha){
+              if(moan == comment.fecha){
                   quejidoEvento = '¡No puedo más!';
-                }else{
-                  quejidoEvento = "No hay quejido en ese tiempo";
                 }
             })
 
@@ -141,8 +132,6 @@ export class VerSesionComponent implements OnInit {
             data.moans['noPuedoSeguir'].forEach((moan) => {
               if(moan == comment.fecha){
                 quejidoEvento = '¡No puedo seguir!';
-              }else{
-                quejidoEvento = "No hay quejido en ese tiempo";
               }
             })
 
@@ -150,17 +139,85 @@ export class VerSesionComponent implements OnInit {
             data.heartbeats.forEach((puls) => {
               if(puls.fecha == comment.fecha){
                 pulsacionEvento = puls.pulsacion;
-              }else{
-                pulsacionEvento = "No hay pulsación en ese tiempo";
               }
             })
-          
+              // var pulsacion = data.heartbeats.find(pulsacion => pulsacion.fecha = comment.fecha)
+              // if(pulsacion){
+              //   pulsacionEvento = pulsacion.pulsacion;
+              // }
+
+            if(!quejidoEvento){
+              quejidoEvento = "No hay quejido para este evento";
+            }
+
+            if(!pulsacionEvento){
+              pulsacionEvento = 'No hay pulsación para este evento';
+            }
+
+            //Evaluación del dolor
+            var puntuacionDolor = 0;
+            var gradoDolor;
+            //Según la emoción que sea sumamos una puntuación u otra:
+            if(emocionEvento == 'neutral'){
+              puntuacionDolor += 0;
+            } else if(emocionEvento == 'happy'){
+              puntuacionDolor += 0;
+            } else if(emocionEvento == 'surprised'){
+              puntuacionDolor += 0;
+            } else if(emocionEvento == 'sad'){
+              puntuacionDolor += 3;
+            } else if(emocionEvento == 'angry'){
+              puntuacionDolor += 3;
+            } else if(emocionEvento == 'fearful'){
+              puntuacionDolor += 3;
+            } else if(emocionEvento == 'disgusted'){
+              puntuacionDolor += 3;
+            } else if(emocionEvento == 'No hay emoción en ese tiempo'){
+              puntuacionDolor += 0;
+            }
+
+            // Según la emoción que sea sumamos una puntuación u otra:
+            if(quejidoEvento == '¡Ay!'){
+              puntuacionDolor += 1;
+            } else if(quejidoEvento == '¡Me duele!'){
+              puntuacionDolor += 1;
+            } else if(quejidoEvento == '¡Para!'){
+              puntuacionDolor += 1;
+            } else if(quejidoEvento == '¡No aguanto!'){
+              puntuacionDolor += 2;
+            } else if(quejidoEvento == '¡No puedo más!'){
+              puntuacionDolor += 2;
+            } else if(quejidoEvento == '¡No puedo seguir!'){
+              puntuacionDolor += 2;
+            } else if(quejidoEvento == 'No hay quejido para este evento'){
+              puntuacionDolor += 0;
+            }
+
+            // Según la pulsación que sea sumamos una puntuación u otra:
+            if(pulsacionEvento >= 80 && pulsacionEvento <= 96){
+              puntuacionDolor += 0;
+            } else if(pulsacionEvento >= 97 && pulsacionEvento <= 162){
+              puntuacionDolor += 2;
+            }
+
+            // Determinamos el grado de dolor en función de la puntuación total obtenida
+            if(puntuacionDolor == 0){
+              gradoDolor = 'NO DOLOR';
+            } else if(puntuacionDolor >= 1 && puntuacionDolor <= 3){
+              gradoDolor = 'DOLOR LEVE - MODERADO';
+            } else if(puntuacionDolor >= 4 && puntuacionDolor <= 6){
+              gradoDolor = 'DOLOR MODERADO - GRAVE';
+            } else if(puntuacionDolor > 6){
+              gradoDolor = 'DOLOR MUY INTENSO';
+            }
+           
           this.eventos.push({
             nota: comment.nota,
             emocion: emocionEvento,
             quejido: quejidoEvento,
             pulsacion: pulsacionEvento,
-            fecha: comment.fecha,
+            fecha: moment.utc(comment.fecha).format('MMMM Do YYYY, h:mm:ss a'),
+            dolor: gradoDolor
           });
         })
         

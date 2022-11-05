@@ -36,11 +36,10 @@
                         <br>
                         <br>
                         <div style="width: 35%; float:left; font-family:'Montserrat', sans-serif;">
+                            <strong>Porcentaje de cada emoción sentida durante la sesión:</strong>
                             <canvas id="doughnutEmociones"></canvas>
                         </div>
                         <div style="width: 65%; float:right; font-family:'Montserrat', sans-serif;">
-                            <br>
-                            <br>
                             <table class="table" style="font-family:'Montserrat', sans-serif;">
                                 <thead>
                                     <tr style="background-color: #2679b4;">
@@ -49,50 +48,25 @@
                                         <th style="color: #ffffff;" scope="col">Quejido</th>
                                         <th style="color: #ffffff;" scope="col">Pulsaciones</th>
                                         <th style="color: #ffffff;" scope="col">Instante temporal</th>
+                                        <th style="color: #ffffff;" scope="col">Dolor</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let comentario of sesionData.comments">
-                                        <td>{{comentario.nota}}</td>
-                                        <td *ngIf="listExpressions[0].fecha==comentario.fecha && emocionPorObjeto[0].fecha == comentario.fecha">{{emocionPorObjeto[0].emocion | emociones}}</td>
-                                        <td *ngIf="listExpressions[1].fecha==comentario.fecha && emocionPorObjeto[1].fecha == comentario.fecha">{{emocionPorObjeto[1].emocion | emociones}}</td>
-                                        <td *ngIf="listExpressions[2].fecha==comentario.fecha && emocionPorObjeto[2].fecha == comentario.fecha">{{emocionPorObjeto[2].emocion | emociones}}</td>
-
-                                        <td *ngIf="listMoans['ay'][0]==comentario.fecha">¡Ay!</td>
-                                        <td *ngIf="listMoans['meDuele'][0]==comentario.fecha">¡Me duele!</td>
-                                        <td *ngIf="listMoans['para'][0]==comentario.fecha">¡Para!</td>
-
-                                        <td *ngIf="listPulsaciones[0].fecha==comentario.fecha && listPulsaciones[0].pulsacion>100">{{listPulsaciones[0].pulsacion}}</td>
-                                        <td *ngIf="listPulsaciones[1].fecha==comentario.fecha && listPulsaciones[1].pulsacion>100">{{listPulsaciones[1].pulsacion}}</td>
-                                        <td *ngIf="listPulsaciones[2].fecha==comentario.fecha && listPulsaciones[2].pulsacion>100">{{listPulsaciones[2].pulsacion}}</td>
-
-                                        <td>{{comentario.fecha.toLocaleString('es-ES', {dateStyle:"full", timeStyle:
-                                            "medium"})}}</td>
+                                    <tr *ngFor="let event of eventos">
+                                        <td>{{event.nota}}</td>
+                                        <td>{{event.emocion | emociones}}</td>
+                                        <td>{{event.quejido}}</td>
+                                        <td>{{event.pulsacion}}</td>
+                                        <td>{{event.fecha}}</td>
+                                        <td *ngIf="event.dolor == 'NO DOLOR'" style="background-color: rgb(44, 192, 44); text-align: center;"><strong>{{event.dolor}}</strong></td>
+                                        <td *ngIf="event.dolor == 'DOLOR LEVE - MODERADO'" style="background-color: yellow; text-align: center;"><strong>{{event.dolor}}</strong></td>
+                                        <td *ngIf="event.dolor == 'DOLOR MODERADO - GRAVE'" style="background-color: orange; text-align: center;"><strong>{{event.dolor}}</strong></td>
+                                        <td *ngIf="event.dolor == 'DOLOR MUY INTENSO'" style="background-color: red; text-align: center;"><strong>{{event.dolor}}</strong></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-
-                        <table class="table" style="font-family:'Montserrat', sans-serif;">
-                            <thead>
-                                <tr style="background-color: #2679b4;">
-                                    <th style="color: #ffffff;" scope="col">Nota</th>
-                                    <th style="color: #ffffff;" scope="col">Emoción</th>
-                                    <th style="color: #ffffff;" scope="col">Quejido</th>
-                                    <th style="color: #ffffff;" scope="col">Pulsaciones</th>
-                                    <th style="color: #ffffff;" scope="col">Instante temporal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let event of eventos">
-                                    <td>{{event.nota}}</td>
-                                    <td>{{event.emocion | emociones}}</td>
-                                    <td>{{event.quejido}}</td>
-                                    <td>{{event.pulsacion}}</td>
-                                    <td>{{event.fecha}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
 
                         <!-- <div style="margin-top: 20px;" class="row">
                             <div class="col">

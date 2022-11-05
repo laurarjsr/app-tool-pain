@@ -163,7 +163,7 @@
                             <button id="btnAgregarNota" type="button" class="btn" style="background-color: #2679b4; color: #ffffff; font-size: small;" (click)="publicarComentarios()">+ Añadir nota</button>
                             <div class="text-danger"
                                 *ngIf="sesionForm.get('comments')?.hasError('required') && sesionForm.get('comments')?.touched">
-                                <span>La fecha <strong>es obligatoria</strong></span>
+                                <span>Las observaciones <strong>son obligatorias</strong></span>
                             </div>
                         </div>
 

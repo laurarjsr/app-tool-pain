@@ -121,7 +121,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
       //editamos sesion
       this._sesionService.editarSesion(this.id, SESION).subscribe(data => {
         this.toastr.info('¡El sesión fue actualizada con éxito!', 'Sesión actualizada');
-        this.router.navigate(['/']);
+        this.router.navigate(['/ver-paciente']);
       }, error => {
         console.log(error);
         this.sesionForm.reset();
@@ -131,7 +131,7 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
       console.log(SESION);
       this._sesionService.guardarSesion(SESION).subscribe(data => {
         this.toastr.success('¡La sesión fue registrada con éxito!', 'Sesión registrada');
-        this.router.navigate(['/']);
+        this.router.navigate(['/ver-paciente']);
       }, error => {
         console.log(error);
         this.sesionForm.reset();
@@ -161,15 +161,15 @@ export class CrearSesionComponent implements OnInit, OnDestroy {
         this.listExpressions = data.emotions;
 
         //Guardamos los quejidos que ya había para no machacar el valor previo
-        this.ay = data.moans.ay;
-        this.meDuele = data.moans.meDuele;
-        this.para = data.moans.para;
-        this.noAguanto = data.moans.noAguanto;
-        this.noPuedoMas = data.moans.noPuedoMas;
-        this.noPuedoSeguir = data.moans.noPuedoSeguir;
+        this.ay = data.moans.ay.map((date) => {return new Date(date)});
+        this.meDuele = data.moans.meDuele.map((date) => {return new Date(date)});
+        this.para = data.moans.para.map((date) => {return new Date(date)});
+        this.noAguanto = data.moans.noAguanto.map((date) => {return new Date(date)});
+        this.noPuedoMas = data.moans.noPuedoMas.map((date) => {return new Date(date)});
+        this.noPuedoSeguir = data.moans.noPuedoSeguir.map((date) => {return new Date(date)});
 
         //Guardamos los comentarios que ya había para no machacar el valor previo
-        this.listComments = data.comments;
+        this.listComments = data.comments.map((comment) => {comment.fecha = new Date(comment.fecha); return comment;});
       })
     }
   }
