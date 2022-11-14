@@ -33,6 +33,20 @@ export class VerSesionComponent implements OnInit {
     dolor: ""
   }]
 
+  //Almacena las veces que se ha repetido una emoción
+  totalPorEmocion = {
+    "neutral": 0,
+    "happy": 0,
+    "sad": 0,
+    "angry": 0,
+    "fearful": 0,
+    "disgusted": 0,
+    "surprised": 0
+  }
+
+  //Almacena los porcentajes de cada emoción
+  totalPorEmocionPorcentaje: any;
+
   //Variable para almacenar el nombre de la emoción que tiene mayor valor junto con la fecha
   emocionPorObjeto: any = [];
 
@@ -46,8 +60,7 @@ export class VerSesionComponent implements OnInit {
       this.doughnutEmociones();
       this.stackedBarQuejidos();
       this.linePulsaciones();
-      }, 500)
-    ;
+      }, 500);
   }
 
   obtenerDatosSesion() {
@@ -216,7 +229,7 @@ export class VerSesionComponent implements OnInit {
             emocion: emocionEvento,
             quejido: quejidoEvento,
             pulsacion: pulsacionEvento,
-            fecha: moment.utc(comment.fecha).format('MMMM Do YYYY, h:mm:ss a'),
+            fecha: moment.utc(comment.fecha).format('ll') + " a las " + moment.utc(comment.fecha).format('LTS'),
             dolor: gradoDolor
           });
         })
@@ -295,21 +308,20 @@ export class VerSesionComponent implements OnInit {
       //     "date": "2022-09-27T15:29:32.014Z"
       //   },
       // ]
-      
-    const linePulsaciones = new Chart("linePulsaciones", {
-      type: 'line',
-      data: {
-        labels: ['29/09/2022 17:56:08', '29/09/2022 17:56:13', '29/09/2022 17:56:18', '29/09/2022 17:56:23', '29/09/2022 17:56:28', '29/09/2022 17:56:33', '29/09/2022 17:56:38', '29/09/2022 17:56:43', '29/09/2022 17:56:48', '29/09/2022 17:56:53', '29/09/2022 17:56:58', '29/09/2022 17:57:03', '29/09/2022 17:57:08', '29/09/2022 17:57:13'],
-        datasets: [{
-          label: 'Pulsaciones durante la sesión (cada 5 segundos)',
-          data: [65, 74, 95, 80, 76, 68, 64, 67, 72, 83, 87, 92, 85, 79],
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgb(255, 99, 132, 0.2)',
-          tension: 0.1,
-          fill: false
-        }]
-      }
-    });
+      const linePulsaciones = new Chart("linePulsaciones", {
+        type: 'line',
+        data: {
+          labels: ['10/10/2022 10:00:08', '10/10/2022 10:05:10', '10/10/2022 10:07:53', '10/10/2022 10:10:33', '10/10/2022 10:14:05', '10/10/2022 10:17:22', '10/10/2022 10:22:53', '10/10/2022 10:24:10', '10/10/2022 10:25:29', '10/10/2022 10:27:13', '10/10/2022 10:30:32', '10/10/2022 10:35:21'],
+          datasets: [{
+            label: 'Pulsaciones',
+            data: [82, 96, 122, 92, 87, 106, 119, 97, 89, 126, 98, 87],
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgb(255, 99, 132, 0.2)',
+            tension: 0.1,
+            fill: false
+          }]
+        }
+      });
   }
 
 
@@ -318,15 +330,15 @@ export class VerSesionComponent implements OnInit {
     //Se realiza el tratamiento de los datos de las emociones antes de pintar el gráfico
     //Cada vez que se guarda un objeto de emociones, éste contiene el porcentaje de cada emoción detectada en ese momento. Es por ello por lo que nos quedaremos con
     //la emoción que más valor ha obtenido de cada objeto de emociones y contaremos las veces que cada emoción ha tenido el máximo valor. Se almacenará en el siguiente objeto:
-    var totalPorEmocion = {
-      "neutral": 0,
-      "happy": 0,
-      "sad": 0,
-      "angry": 0,
-      "fearful": 0,
-      "disgusted": 0,
-      "surprised": 0
-    }
+    // var totalPorEmocion = {
+    //   "neutral": 0,
+    //   "happy": 0,
+    //   "sad": 0,
+    //   "angry": 0,
+    //   "fearful": 0,
+    //   "disgusted": 0,
+    //   "surprised": 0
+    // }
 
     this.sesionData.emotions.forEach((emocion) => {
       var acum = 0;
@@ -338,19 +350,19 @@ export class VerSesionComponent implements OnInit {
         }
       })
       this.emocionPorObjeto.push({emocion: emo, fecha: emocion.fecha});
-      totalPorEmocion[emo]++;
+      this.totalPorEmocion[emo]++;
       
       // console.log(emocionPorObjeto);
     })
 
-    var totalPorEmocionPorcentaje = JSON.parse(JSON.stringify(totalPorEmocion));
+    this.totalPorEmocionPorcentaje = JSON.parse(JSON.stringify(this.totalPorEmocion));
 
-    Object.keys(totalPorEmocionPorcentaje).forEach((prop) => {
-      totalPorEmocionPorcentaje[prop] = (totalPorEmocionPorcentaje[prop] / this.sesionData.emotions.length) * 100;
+    Object.keys(this.totalPorEmocionPorcentaje).forEach((prop) => {
+      this.totalPorEmocionPorcentaje[prop] = (this.totalPorEmocionPorcentaje[prop] / this.sesionData.emotions.length) * 100;
     })
 
-    console.log(totalPorEmocion);
-    console.log(totalPorEmocionPorcentaje);
+    console.log(this.totalPorEmocion);
+    console.log(this.totalPorEmocionPorcentaje);
     console.log(this.emocionPorObjeto);
 
 
@@ -368,7 +380,7 @@ export class VerSesionComponent implements OnInit {
         ],
         datasets: [{
           label: 'Emociones durante la sesión',
-          data: [totalPorEmocionPorcentaje['neutral'], totalPorEmocionPorcentaje['happy'], totalPorEmocionPorcentaje['sad'], totalPorEmocionPorcentaje['angry'], totalPorEmocionPorcentaje['fearful'], totalPorEmocionPorcentaje['disgusted'], totalPorEmocionPorcentaje['surprised']],
+          data: [this.totalPorEmocionPorcentaje['neutral'], this.totalPorEmocionPorcentaje['happy'], this.totalPorEmocionPorcentaje['sad'], this.totalPorEmocionPorcentaje['angry'], this.totalPorEmocionPorcentaje['fearful'], this.totalPorEmocionPorcentaje['disgusted'], this.totalPorEmocionPorcentaje['surprised']],
           backgroundColor: [
             'rgb(214, 214, 214)',
             'rgb(254, 255, 179)',

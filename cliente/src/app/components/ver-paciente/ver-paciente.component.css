@@ -2,3 +2,102 @@
     cursor: pointer;
     margin-left: 7px;
 }
+
+.perfil-paciente .info-perfil-paciente,
+        .perfil-paciente {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+        }
+
+.perfil-paciente .perfil-paciente-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(#2679b4, transparent);
+    margin-bottom: 1.25rem;
+}
+
+.perfil-paciente .perfil-paciente-imagen {
+    display: flex;
+    width: 180px;
+    height: 180px;
+    align-items: center;
+    justify-content: center;
+    border: 7px solid #FFFFFF;
+    background-color: #DFE5F2;
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(0, 0, 0, .2);
+    bottom: -40px;
+    left: calc(50% - 90px);
+    z-index: 1;
+    margin-top: 20px;
+}
+
+.perfil-paciente .perfil-paciente-imagen img {
+    width: 100%;
+    position: relative;
+    border-radius: 50%;
+}
+
+.perfil-paciente .perfil-paciente-avatar {
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    border: 0;
+    background-color: #fff;
+    box-shadow: 0 0 12px rgba(0, 0, 0, .2);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.perfil-paciente .info-perfil-paciente {
+    width: 70%;
+    position: relative;
+    max-width: 750px;
+}
+
+.perfil-paciente .info-perfil-paciente .titulo {
+    display: block;
+    width: 100%;
+    font-size: 1.75em;
+    margin-bottom: 0.5rem;
+}
+
+.perfil-paciente,
+.perfil-paciente .perfil-paciente-bio {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 0 12px rgba(0, 0, 0, .2);
+    background-color: #fff;
+    border-radius: 15px;
+    width: 100%;
+}
+        
+.perfil-paciente .perfil-paciente-bio {
+    margin-bottom: 1.25rem;
+}
+
+.perfil-paciente .lista-info {
+    width: 50%;
+    list-style: none;
+}
+
+.perfil-paciente .lista-info li {
+    padding: 5px 0;
+}
+
+.perfil-paciente .lista-info li>.icono {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+    vertical-align: middle;
+}
+
+#ver-paciente {
+    transform: scale(0.75);
+    margin-top: -8rem;
+}

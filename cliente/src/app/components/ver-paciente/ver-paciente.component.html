@@ -1,59 +1,72 @@
-<div class="container mt-5">
-    <div class="row">
-        <div class="col">
-            <button class="btn btn-primary" style="background-color: #2679b4;" routerLink="/">Listado</button>
+<div class="container" id="ver-paciente">
+      <div class="row">
+          <div class="col">
+              <button class="btn btn-primary btn-lg" style="background-color: #2679b4; font-family:'Montserrat', sans-serif;" routerLink="/"><i class="bi bi-arrow-left-circle"></i> Listado pacientes</button>
+          </div>
+      </div>
+      <br>
+  
+      <section class="perfil-paciente">
+        <div class="perfil-paciente-header">
+          <div class="perfil-paciente-portada">
+              <div class="perfil-paciente-imagen">
+                  <img src="./assets/images/imagenPaciente.png" alt="">
+              </div>
+          </div>
         </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-lg offset-lg">
-            <div class="card">
-                <div class="card-body">
-                    <strong class="titulo">PACIENTE </strong>
-                    <br>
-                    <br>
-                        <div style="width: 50%; float:left; font-family:'Montserrat', sans-serif;">
-                            <strong>Nombre:</strong> Juan <br>
-                            <strong>Apellidos:</strong> Sánchez López <br>
-                            <strong>Fecha de inicio de rehabilitación:</strong> 12 de mayo de 2022<br>
-                            <strong>Fecha de fin de rehabilitación:</strong> Sin determinar<br>
-                         </div>
-                         <div style="width: 50%; float:right; font-family:'Montserrat', sans-serif;">
-                            <strong>Motivo de rehabilitación:
-                                <br>
-                            </strong> <textarea disabled style="height: 85px; width: 600px">Fractura de radio y cúbito</textarea>
-                         </div>
-                </div>
-                <div class="container mt-3 mb-3">
-                    <hr>
-                    <div class="row">
-                        <div class="col">
-                            <span class="titulo" style="font-size: 1.4rem;"><strong>Sesiones</strong></span>
-                            <table *ngIf="listSesiones.length > 0" class="table table-striped">
-                                <thead>
-                                  <tr style="background-color: #2679b4;">
-                                    <th style="color: #ffffff;" scope="col">Nº</th>
-                                    <th style="color: #ffffff;" scope="col">Fecha</th>
-                                    <th scope="col"></th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr *ngFor="let sesion of listSesiones">
-                                    <td>{{ sesion._id }}</td>
-                                    <td>{{ sesion.date | date: 'medium' }}</td>
-                                    <td>
-                                        <i [routerLink]="['/ver-sesion', sesion._id]" class="fas fa-solid fa-eye"></i>
-                                        <i (click)="eliminarSesion(sesion._id)" class="fas fa-solid fa-trash"></i>
-                                        <i [routerLink]="['/editar-sesion', sesion._id]" class="fas fa-solid fa-pen-to-square"></i>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                              <h5 style="text-align: start;" *ngIf="listSesiones.length == 0">No hay sesiones de rehabilitación</h5>
-                        </div>
-                    </div>
-                    <br>
-                    <button style="font-family:'Montserrat', sans-serif;" class="btn btn-success float-end" routerLink="/crear-sesion"><i class="fa-solid fa-plus"></i> Nueva Sesión</button>
-                </div>
-            </div>
+        <div class="info-perfil-paciente">
+          <div class="perfil-paciente-bio">
+            <h3 class="titulo">Daniela Sánchez López</h3>
+            <ul class="lista-info" style="font-family:'Montserrat', sans-serif;">
+              <li><i class="icono bi bi-calendar-heart" style="font-size:23px;"></i> <strong>Edad:</strong><br> <input type="text" value=" 26 años" disabled style="border-radius: 5px; margin-top: 5px"></li>
+              <li><i class="icono bi bi-gender-ambiguous" style="font-size:23px;"></i> <strong>Género:</strong><br> <input type="text" value=" Mujer" disabled style="border-radius: 5px; margin-top: 5px"></li>
+              <li><i class="icono bi bi-telephone-fill" style="font-size:23px;"></i> <strong>Teléfono:</strong><br> <input type="text" value=" 623489178" disabled style="border-radius: 5px; margin-top: 5px"></li>
+              <li><i class="icono bi bi-file-earmark-text" style="font-size:23px;"></i> <strong>DNI:</strong><br> <input type="text" value=" 45377381 E" disabled style="border-radius: 5px; margin-top: 5px"></li>
+          </ul>
+            <ul class="lista-info" style="font-family:'Montserrat', sans-serif;">
+                <li><i class="icono bi bi-building" style="font-size:23px;"></i> <strong>Dirección:</strong><br> <input type="text" value=" C/ Pérez, Nº 23, P 3ºB" disabled style="border-radius: 5px; margin-top: 5px"></li>
+                <li><i class="icono bi bi-calendar-check" style="font-size:23px;"></i> <strong>Fecha de inicio de rehabilitación:</strong> <br> <input type="text" value="1 de octubre de 2022" disabled style="border-radius: 5px; margin-top: 5px"></li>
+                <li><i class="icono bi bi-calendar-x" style="font-size:23px;"></i> <strong>Fecha de fin de rehabilitación:</strong><br> <input type="text" value=" Sin determinar" disabled style="border-radius: 5px; margin-top: 5px"></li>
+                <li><i class="icono bi bi-journal-medical" style="font-size:23px;"></i> <strong>Motivo de rehabilitación: </strong>
+                  <textarea disabled style="height: 85px; width: 300px">  Fractura de radio y cúbito</textarea></li>
+            </ul>
+          </div>
         </div>
+        <div class="container mt-3 mb-3">
+          <hr>
+          <div class="row">
+              <div class="col">
+                  <div class="card" style="font-family:'Montserrat', sans-serif;">
+                      <div class="card-body">
+                          <h5 class="card-title"><i class="bi bi-list-ul" style="color: #2679b4;"></i><strong> Sesiones</strong></h5>
+                          <table *ngIf="listSesiones.length > 0" class="table text-center" >
+                              <thead>
+                                <tr style="background-color: #2679b4;">
+                                  <th style="color: #ffffff;" scope="col"></th>
+                                  <th style="color: #ffffff;" scope="col"><i class="bi bi-calendar4-event"></i> Fecha</th>
+                                  <th scope="col"></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let sesion of listSesiones">
+                                  <td>{{ sesion._id }}</td>
+                                  <td>{{ sesion.date | date: 'medium' }}</td>
+                                  <td>
+                                      <i [routerLink]="['/ver-sesion', sesion._id]" class="fas fa-solid fa-eye"></i>
+                                      <i style="color: #2679b4" [routerLink]="['/editar-sesion', sesion._id]" class="fas fa-solid fa-pen-to-square"></i>
+                                      <i style="color: red" (click)="eliminarSesion(sesion._id)" class="fas fa-solid fa-trash"></i>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                      </div>
+                  </div>
+                    <h5 style="text-align: start;" *ngIf="listSesiones.length == 0">No hay sesiones de rehabilitación</h5>
+              </div>
+          </div>
+          <button style="font-family:'Montserrat', sans-serif; margin-top: 10px;" class="btn btn-success float-end" routerLink="/crear-sesion"><i class="fa-solid fa-plus"></i> Nueva Sesión</button>
+      </div>
+      </section>
+
+
+    

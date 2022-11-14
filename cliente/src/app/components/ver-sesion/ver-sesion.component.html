@@ -1,116 +1,222 @@
-<div class="container mt-5">
-    <div class="row">
-        <div class="col">
-            <button class="btn" style="background-color: #2679b4; color: #ffffff;" routerLink="/ver-paciente">Listado sesiones</button>
+    <div class="container" id="ver-sesion" style="margin-top: 1rem;font-size: 15px;">
+        <div class="row">
+            <div class="col">
+                <button class="btn" style="background-color: #2679b4; color: #ffffff; font-family:'Montserrat', sans-serif;" routerLink="/ver-paciente"><i
+                        class="bi bi-arrow-left-circle"></i> Listado sesiones</button>
+            </div>
         </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-lg offset-lg">
-            <div class="card">
-                <div class="card-body">
-                    <span class="titulo"><strong>Ver Sesión: {{this.id}}</strong></span>
-                    <div class="container mt-3 mb-3">
-                        <!-- <div class="row">
-                            <div class="col">
-                                <br><strong>Ejercicios a realizar:</strong> {{sesionData.exerciseToDo}}
-                                <br><strong>Duración total aproximada:</strong> {{sesionData.aproxTotalDuration}} minutos
-                                <br><strong>Duración total real:</strong> {{sesionData.actualTotalDuration}} minutos
-                                <br><strong>Fecha de la sesión:</strong> {{sesionData.date}}<strong>
-                                <br>Observaciones:</strong> {{sesionData.comments.length}} comentarios durante la sesión (ver tabla)
+        <br>
+        <div class="row">
+            <div class="col-lg offset-lg">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <span class="titulo"><strong>Ver Sesión: {{this.id}}</strong></span> -->
+                        <div class="container mt-3 mb-3">
+                            <!-- <div class="row">
+                                <div class="col">
+                                    <br><strong>Ejercicios a realizar:</strong> {{sesionData.exerciseToDo}}
+                                    <br><strong>Duración total aproximada:</strong> {{sesionData.aproxTotalDuration}} minutos
+                                    <br><strong>Duración total real:</strong> {{sesionData.actualTotalDuration}} minutos
+                                    <br><strong>Fecha de la sesión:</strong> {{sesionData.date}}<strong>
+                                    <br>Observaciones:</strong> {{sesionData.comments.length}} comentarios durante la sesión (ver tabla)
+                                </div>
+                            </div> -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="font-family:'Montserrat', sans-serif;"><i
+                                            class="bi bi-journal-text" style="color: #2679b4;"></i><strong> Información de
+                                            la sesión</strong></h5>
+                                    <div style="width: 50%; float:left; font-family:'Montserrat', sans-serif;">
+                                        <strong>Ejercicios a realizar:</strong> {{sesionData.exerciseToDo}}
+                                        <br><strong>Duración total aproximada:</strong> {{sesionData.aproxTotalDuration}}
+                                        minutos
+                                        <br><strong>Duración total real:</strong> {{sesionData.actualTotalDuration}} minutos
+                                    </div>
+                                    <div style="width: 50%; float:right; font-family:'Montserrat', sans-serif;">
+                                        <strong>Fecha de la sesión:</strong> {{editDate}}<strong>
+                                            <br>Observaciones:</strong> {{sesionData.comments.length}} comentarios durante
+                                        la sesión (ver tabla)
+                                    </div>
+                                </div>
                             </div>
-                        </div> -->
-                        <div style="width: 55%; float:left; font-family:'Montserrat', sans-serif;">
-                            <strong>Ejercicios a realizar:</strong> {{sesionData.exerciseToDo}}
-                            <br><strong>Duración total aproximada:</strong> {{sesionData.aproxTotalDuration}} minutos
-                            <br><strong>Duración total real:</strong> {{sesionData.actualTotalDuration}} minutos
-                         </div>
-                         <div style="width: 45%; float:right; font-family:'Montserrat', sans-serif;">
-                            <strong>Fecha de la sesión:</strong> {{editDate}}<strong>
-                            <br>Observaciones:</strong> {{sesionData.comments.length}} comentarios durante la sesión (ver tabla)
-                        </div>
-                        <br>
-                        <br>
-                        <br>
-                            <canvas style="margin-top: 10px;" height="80" id="linePulsaciones"></canvas>
-                        <br>
-                        <br>
-                        <div style="width: 35%; float:left; font-family:'Montserrat', sans-serif;">
-                            <strong>Porcentaje de cada emoción sentida durante la sesión:</strong>
-                            <canvas id="doughnutEmociones"></canvas>
-                        </div>
-                        <div style="width: 65%; float:right; font-family:'Montserrat', sans-serif;">
-                            <table class="table" style="font-family:'Montserrat', sans-serif;">
-                                <thead>
-                                    <tr style="background-color: #2679b4;">
-                                        <th style="color: #ffffff;" scope="col">Nota</th>
-                                        <th style="color: #ffffff;" scope="col">Emoción</th>
-                                        <th style="color: #ffffff;" scope="col">Quejido</th>
-                                        <th style="color: #ffffff;" scope="col">Pulsaciones</th>
-                                        <th style="color: #ffffff;" scope="col">Instante temporal</th>
-                                        <th style="color: #ffffff;" scope="col">Dolor</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let event of eventos">
-                                        <td>{{event.nota}}</td>
-                                        <td>{{event.emocion | emociones}}</td>
-                                        <td>{{event.quejido}}</td>
-                                        <td>{{event.pulsacion}}</td>
-                                        <td>{{event.fecha}}</td>
-                                        <td *ngIf="event.dolor == 'NO DOLOR'" style="background-color: rgb(44, 192, 44); text-align: center;"><strong>{{event.dolor}}</strong></td>
-                                        <td *ngIf="event.dolor == 'DOLOR LEVE - MODERADO'" style="background-color: yellow; text-align: center;"><strong>{{event.dolor}}</strong></td>
-                                        <td *ngIf="event.dolor == 'DOLOR MODERADO - GRAVE'" style="background-color: orange; text-align: center;"><strong>{{event.dolor}}</strong></td>
-                                        <td *ngIf="event.dolor == 'DOLOR MUY INTENSO'" style="background-color: red; text-align: center;"><strong>{{event.dolor}}</strong></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- <div style="margin-top: 20px;" class="row">
-                            <div class="col">
-                                <canvas id="doughnutEmociones"></canvas>
+                            <br>
+                            <div class="card" style="font-family:'Montserrat', sans-serif;">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="bi bi-heart-pulse" style="color: red;"></i><strong>
+                                            Pulsaciones durante la sesión</strong></h5>
+                                    <p class="card-text">El siguiente gráfico muestra las pulsaciones que ha tenido el
+                                        paciente durante la sesión de rehabilitación</p>
+                                    <canvas style="margin-top: 10px;" height="80" id="linePulsaciones"></canvas>
+                                    <br>
+                                    <div class="card" style="border-color: orange;">
+                                        <div class="card-body" style="background-color: rgb(255, 238, 205);">
+                                            <p class="card-text"><i class="bi bi-exclamation-triangle-fill"
+                                                    style="color: orange;"></i> <strong> Atención a los instantes donde se
+                                                    producen picos</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col">
-                                <table class="table" style="font-family:'Montserrat', sans-serif;">
-                                    <thead>
-                                        <tr style="background-color: #2679b4;">
-                                            <th style="color: #ffffff;" scope="col">Nota</th>
-                                            <th style="color: #ffffff;" scope="col">Emoción</th>
-                                            <th style="color: #ffffff;" scope="col">Quejido</th>
-                                            <th style="color: #ffffff;" scope="col">Pulsaciones</th>
-                                            <th style="color: #ffffff;" scope="col">Instante temporal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let comentario of sesionData.comments">
-                                            <td>{{comentario.nota}}</td>
-                                            <td *ngIf="listExpressions[0].fecha==comentario.fecha && emocionPorObjeto[0].fecha == comentario.fecha">{{emocionPorObjeto[0].emocion | emociones}}</td>
-                                            <td *ngIf="listExpressions[1].fecha==comentario.fecha && emocionPorObjeto[1].fecha == comentario.fecha">{{emocionPorObjeto[1].emocion | emociones}}</td>
-                                            <td *ngIf="listExpressions[2].fecha==comentario.fecha && emocionPorObjeto[2].fecha == comentario.fecha">{{emocionPorObjeto[2].emocion | emociones}}</td>
-
-                                            <td *ngIf="listMoans['ay'][0]==comentario.fecha">¡Ay!</td>
-                                            <td *ngIf="listMoans['meDuele'][0]==comentario.fecha">¡Me duele!</td>
-                                            <td *ngIf="listMoans['para'][0]==comentario.fecha">¡Para!</td>
-
-                                            <td *ngIf="listPulsaciones[0].fecha==comentario.fecha && listPulsaciones[0].pulsacion>100">{{listPulsaciones[0].pulsacion}}</td>
-                                            <td *ngIf="listPulsaciones[1].fecha==comentario.fecha && listPulsaciones[1].pulsacion>100">{{listPulsaciones[1].pulsacion}}</td>
-                                            <td *ngIf="listPulsaciones[2].fecha==comentario.fecha && listPulsaciones[2].pulsacion>100">{{listPulsaciones[2].pulsacion}}</td>
-
-                                            <td>{{comentario.fecha.toLocaleString('es-ES', {dateStyle:"full", timeStyle:
-                                                "medium"})}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <ng-template #noEmocion>No hay emoción</ng-template>
-                                <ng-template #noQuejido>No hay quejido</ng-template>
-                                <ng-template #noPulsacion>No hay pulsaciones</ng-template>
+                            <br>
+                                <!-- Botón que lanza el modal con la tabla de los eventos importantes -->
+                                <button type="button" class="btn float-end" data-bs-toggle="modal"
+                                data-bs-target="#modalEventos" style="font-family:'Montserrat', sans-serif; margin-left: 10px; background-color: #299a23; color: white">
+                                <i class="bi bi-calendar-event"></i> Eventos importantes
+                                </button>
+                                <!-- Botón que lanza el modal con la tabla de los eventos importantes -->
+                                <button type="button" class="btn float-end" data-bs-toggle="modal"
+                                data-bs-target="#modalEmociones" style="font-family:'Montserrat', sans-serif; background-color: #299a23; color: white">
+                                <i class="bi bi-emoji-smile"></i> Emociones sentidas
+                                </button>
+                            
+                            <!-- Modal de eventos importantes -->
+                            <div class="modal fade" id="modalEventos" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalCenterTitle" style="--bs-modal-width: 1100px;">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Eventos importantes de la
+                                                sesión</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table" style="font-family:'Montserrat', sans-serif; font-size: medium;">
+                                                <thead>
+                                                    <tr style="background-color: #2679b4;">
+                                                        <th style="color: #ffffff; text-align: center" scope="col"><i
+                                                                class="bi bi-journal-medical"></i> Nota</th>
+                                                        <th style="color: #ffffff; text-align: center" scope="col"><i
+                                                                class="bi bi-emoji-neutral"></i> Emoción</th>
+                                                        <th style="color: #ffffff; text-align: center" scope="col"><i
+                                                                class="bi bi-mic"></i> Quejido</th>
+                                                        <th style="color: #ffffff; text-align: center" scope="col"><i
+                                                                class="bi bi-heart-pulse"></i> Pulsaciones</th>
+                                                        <th style="color: #ffffff; text-align: center" scope="col"><i
+                                                                class="bi bi-clock"></i> Instante temporal</th>
+                                                        <th style="color: #ffffff; text-align: center" scope="col"><i
+                                                                class="bi bi-bar-chart-line-fill"></i> Dolor</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let event of eventos">
+                                                        <td style="text-align: center; vertical-align: middle;">{{event.nota}}</td>
+                                                        <td style="text-align: center; vertical-align: middle;">{{event.emocion | emociones}}</td>
+                                                        <td style="text-align: center; vertical-align: middle;">{{event.quejido}}</td>
+                                                        <td style="text-align: center; vertical-align: middle;">{{event.pulsacion}}</td>
+                                                        <td style="text-align: center; vertical-align: middle;">{{event.fecha}}</td>
+                                                        <!-- <td *ngIf="event.dolor == 'NO DOLOR'" style="background-color: rgb(44, 192, 44); text-align: center;"><strong>{{event.dolor}}</strong></td>
+                                                        <td *ngIf="event.dolor == 'DOLOR LEVE - MODERADO'" style="background-color: yellow; text-align: center;"><strong>{{event.dolor}}</strong></td>
+                                                        <td *ngIf="event.dolor == 'DOLOR MODERADO - GRAVE'" style="background-color: orange; text-align: center;"><strong>{{event.dolor}}</strong></td>
+                                                        <td *ngIf="event.dolor == 'DOLOR MUY INTENSO'" style="background-color: red; text-align: center;"><strong>{{event.dolor}}</strong></td> -->
+    
+                                                        <td style="text-align: center; vertical-align: middle;"><strong>{{event.dolor}}</strong>
+                                                        </td>
+                                                        <!-- <td *ngIf="event.dolor == 'DOLOR LEVE - MODERADO'" style="text-align: center;"><strong>{{event.dolor}}</strong></td>
+                                                        <td *ngIf="event.dolor == 'DOLOR MODERADO - GRAVE'" style="text-align: center;"><strong>{{event.dolor}}</strong></td>
+                                                        <td *ngIf="event.dolor == 'DOLOR MUY INTENSO'" style="text-align: center;"><strong>{{event.dolor}}</strong></td> -->
+    
+                                                        <td class="table-success" *ngIf="event.dolor == 'NO DOLOR'"
+                                                            style="text-align: center; height: 10px; width: 10px; vertical-align: middle;"><img
+                                                                width="70" height="70" src="./assets/images/dolorCero.png">
+                                                        </td>
+                                                        <td class="table-warning" *ngIf="event.dolor == 'DOLOR LEVE - MODERADO'"
+                                                            style="text-align: center; vertical-align: middle;">
+                                                            <img width="70" height="70"
+                                                                src="./assets/images/dolorLeveModerado.svg">
+                                                        </td>
+                                                        <td *ngIf="event.dolor == 'DOLOR MODERADO - GRAVE'"
+                                                            style="text-align: center; background-color: rgb(255, 224, 167); vertical-align: middle;">
+                                                            <img width="70" height="70"
+                                                                src="./assets/images/dolorModeradoGrave.png">
+                                                        </td>
+                                                        <td class="table-danger" *ngIf="event.dolor == 'DOLOR MUY INTENSO'"
+                                                            style="text-align: center; vertical-align: middle;"><img width="70" height="70"
+                                                                src="./assets/images/dolorIntenso.png"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                data-bs-dismiss="modal" style="font-family:'Montserrat', sans-serif;">Cerrar</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div> -->
+    
+    
+                            <!-- Modal de eventos importantes -->
+                            <div class="modal fade" id="modalEmociones" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalCenterTitle" style="--bs-modal-width: 400px;">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle"><i class="bi bi-percent"></i>
+                                                Porcentaje de cada emoción sentida durante la
+                                                sesión</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                                <canvas id="doughnutEmociones"></canvas>
+                                                <hr>
+                                                <table class="table table-sm" style="text-align: center;">
+                                                    <thead>
+                                                      <tr>
+                                                        <th scope="col">Emoción</th>
+                                                        <th scope="col">Porcentaje</th>
+                                                        <th scope="col">Veces repetida</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                      <tr>
+                                                        <th scope="row">Neutral</th>
+                                                        <td>{{totalPorEmocionPorcentaje['neutral'].toFixed(3)}} %</td>
+                                                        <td>{{totalPorEmocion["neutral"]}}</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th scope="row">Feliz</th>
+                                                        <td>{{totalPorEmocionPorcentaje['happy'].toFixed(3)}} %</td>
+                                                        <td>{{totalPorEmocion["happy"]}}</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th scope="row">Triste</th>
+                                                        <td>{{totalPorEmocionPorcentaje['sad'].toFixed(3)}} %</td>
+                                                        <td>{{totalPorEmocion["sad"]}}</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th scope="row">Enfadado</th>
+                                                        <td>{{totalPorEmocionPorcentaje['angry'].toFixed(3)}} %</td>
+                                                        <td>{{totalPorEmocion["angry"]}}</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th scope="row">Asqueado</th>
+                                                        <td>{{totalPorEmocionPorcentaje['fearful'].toFixed(3)}} %</td>
+                                                        <td>{{totalPorEmocion["fearful"]}}</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th scope="row">Disgustado</th>
+                                                        <td>{{totalPorEmocionPorcentaje['disgusted'].toFixed(3)}} %</td>
+                                                        <td>{{totalPorEmocion["disgusted"]}}</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th scope="row">Sorprendido</th>
+                                                        <td>{{totalPorEmocionPorcentaje['surprised'].toFixed(3)}} %</td>
+                                                        <td>{{totalPorEmocion["surprised"]}}</td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                data-bs-dismiss="modal" style="font-family:'Montserrat', sans-serif;">Cerrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
